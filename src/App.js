@@ -91,14 +91,14 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
         <React.Fragment key={step}>
           <div className={`flex items-center justify-center w-10 h-10 rounded-full border-2 ${
             currentStep >= step
-              ? 'bg-blue-600 border-blue-600 text-white'
+              ? 'bg-red-600 border-red-600 text-white'
               : 'border-gray-300 text-gray-400'
           }`}>
             {currentStep > step ? <CheckCircle className="w-5 h-5" /> : step}
           </div>
           {step < 4 && (
             <div className={`w-12 h-0.5 ${
-              currentStep > step ? 'bg-blue-600' : 'bg-gray-300'
+              currentStep > step ? 'bg-red-600' : 'bg-gray-300'
             }`} />
           )}
         </React.Fragment>
@@ -108,12 +108,12 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
 
   if (currentStep === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="min-h-screen bg-gradient-to-br from-red-50 to-rose-100">
         <div className="bg-white shadow-sm">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center space-x-4">
-                <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                <div className="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center">
                   <Package className="w-6 h-6 text-white" />
                 </div>
                 <div>
@@ -130,7 +130,7 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
                 )}
                 <button
                   onClick={() => setCurrentStep(1)}
-                  className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                  className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors font-medium"
                 >
                   Book Appointment
                 </button>
@@ -156,8 +156,8 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
             <div className="bg-white rounded-xl shadow-sm p-6 text-center">
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-3">
-                <CheckCircle className="w-6 h-6 text-green-600" />
+              <div className="w-12 h-12 bg-rose-100 rounded-lg flex items-center justify-center mx-auto mb-3">
+                <CheckCircle className="w-6 h-6 text-rose-600" />
               </div>
               <h3 className="text-2xl font-bold text-gray-900">
                 {appointments.filter(a => a.status === 'confirmed').length}
@@ -165,8 +165,8 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
               <p className="text-sm text-gray-600">Confirmed Today</p>
             </div>
             <div className="bg-white rounded-xl shadow-sm p-6 text-center">
-              <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mx-auto mb-3">
-                <Clock className="w-6 h-6 text-yellow-600" />
+              <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mx-auto mb-3">
+                <Clock className="w-6 h-6 text-red-600" />
               </div>
               <h3 className="text-2xl font-bold text-gray-900">
                 {appointments.filter(a => a.status === 'pending').length}
@@ -174,8 +174,8 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
               <p className="text-sm text-gray-600">Pending Approval</p>
             </div>
             <div className="bg-white rounded-xl shadow-sm p-6 text-center">
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-3">
-                <Package className="w-6 h-6 text-blue-600" />
+              <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mx-auto mb-3">
+                <Package className="w-6 h-6 text-red-600" />
               </div>
               <h3 className="text-2xl font-bold text-gray-900">
                 {availableItems.filter(i => i.status === 'available').length}
@@ -183,8 +183,8 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
               <p className="text-sm text-gray-600">Items Available</p>
             </div>
             <div className="bg-white rounded-xl shadow-sm p-6 text-center">
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-3">
-                <Calendar className="w-6 h-6 text-purple-600" />
+              <div className="w-12 h-12 bg-rose-100 rounded-lg flex items-center justify-center mx-auto mb-3">
+                <Calendar className="w-6 h-6 text-rose-600" />
               </div>
               <h3 className="text-2xl font-bold text-gray-900">24/7</h3>
               <p className="text-sm text-gray-600">Online Booking</p>
@@ -199,8 +199,8 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
                 <div key={appointment.id} className="px-6 py-4 flex items-center justify-between">
                   <div className="flex items-center space-x-4">
                     <div className={`w-3 h-3 rounded-full ${
-                      appointment.status === 'confirmed' ? 'bg-green-400' :
-                        appointment.status === 'pending' ? 'bg-yellow-400' : 'bg-red-400'
+                      appointment.status === 'confirmed' ? 'bg-rose-400' :
+                        appointment.status === 'pending' ? 'bg-red-400' : 'bg-red-400'
                     }`} />
                     <div>
                       <p className="font-medium text-gray-900">{appointment.requesterName}</p>
@@ -214,8 +214,8 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
                     <p className="text-sm text-gray-600">{appointment.purpose}</p>
                   </div>
                   <div className={`px-3 py-1 rounded-full text-xs font-medium ${
-                    appointment.status === 'confirmed' ? 'bg-green-100 text-green-800' :
-                      appointment.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800'
+                    appointment.status === 'confirmed' ? 'bg-rose-100 text-rose-800' :
+                      appointment.status === 'pending' ? 'bg-red-100 text-red-800' : 'bg-red-100 text-red-800'
                   }`}>
                     {appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}
                   </div>
@@ -230,11 +230,11 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
 
   if (currentStep === 5) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-rose-50 to-pink-100 flex items-center justify-center">
         <div className="max-w-md w-full mx-4">
           <div className="bg-white rounded-2xl shadow-xl p-8 text-center">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <CheckCircle className="w-8 h-8 text-green-600" />
+            <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <CheckCircle className="w-8 h-8 text-rose-600" />
             </div>
             <h2 className="text-2xl font-bold text-gray-900 mb-4">
               Appointment Booked Successfully!
@@ -245,7 +245,7 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
             <div className="space-y-3">
               <button
                 onClick={() => setCurrentStep(0)}
-                className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                className="w-full bg-red-600 text-white py-3 px-4 rounded-lg hover:bg-red-700 transition-colors font-medium"
               >
                 Back to Dashboard
               </button>
@@ -303,7 +303,7 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
                     type="text"
                     value={formData.requesterName}
                     onChange={(e) => setFormData({ ...formData, requesterName: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                     placeholder="Enter your full name"
                   />
                 </div>
@@ -315,7 +315,7 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
                     type="email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                     placeholder="your.email@company.com"
                   />
                 </div>
@@ -327,7 +327,7 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
                     type="tel"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                     placeholder="+63 912 345 6789"
                   />
                 </div>
@@ -338,7 +338,7 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
                   <select
                     value={formData.department}
                     onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                   >
                     <option value="">Select Department</option>
                     {departments.map((dept) => (
@@ -359,7 +359,7 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
                     onClick={() => setFormData({ ...formData, purpose: purpose.value })}
                     className={`p-6 border-2 rounded-xl cursor-pointer transition-all ${
                       formData.purpose === purpose.value
-                        ? 'border-blue-500 bg-blue-50'
+                        ? 'border-red-500 bg-red-50'
                         : 'border-gray-200 hover:border-gray-300'
                     }`}
                   >
@@ -376,14 +376,14 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
                 {formData.purpose === 'return' ? 'Items to Return' : 'Select Items'}
               </h2>
               {formData.purpose === 'return' ? (
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-                  <p className="text-blue-800 mb-4">
+                <div className="bg-red-50 border border-red-200 rounded-lg p-6">
+                  <p className="text-red-800 mb-4">
                     Please bring all items you wish to return. Our staff will verify and process them during your appointment.
                   </p>
                   <textarea
                     value={formData.notes}
                     onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                     rows="4"
                     placeholder="List the items you're returning or add any special notes..."
                   />
@@ -398,7 +398,7 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
                           type="text"
                           value={searchTerm}
                           onChange={(e) => setSearchTerm(e.target.value)}
-                          className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                           placeholder="Search items..."
                         />
                       </div>
@@ -406,7 +406,7 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
                     <select
                       value={selectedCategory}
                       onChange={(e) => setSelectedCategory(e.target.value)}
-                      className="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                     >
                       {categories.map((category) => (
                         <option key={category} value={category}>
@@ -416,20 +416,20 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
                     </select>
                   </div>
                   {selectedItems.length > 0 && (
-                    <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                      <h3 className="font-medium text-blue-900 mb-2">
+                    <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                      <h3 className="font-medium text-red-900 mb-2">
                         Selected Items ({selectedItems.length})
                       </h3>
                       <div className="flex flex-wrap gap-2">
                         {selectedItems.map((item) => (
                           <span
                             key={item.id}
-                            className="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm"
+                            className="inline-flex items-center px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm"
                           >
                             {item.name}
                             <button
                               onClick={() => handleItemSelection(item)}
-                              className="ml-2 text-blue-600 hover:text-blue-800"
+                              className="ml-2 text-red-600 hover:text-red-800"
                             >
                               <X className="w-4 h-4" />
                             </button>
@@ -447,7 +447,7 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
                           onClick={() => handleItemSelection(item)}
                           className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
                             isSelected
-                              ? 'border-blue-500 bg-blue-50'
+                              ? 'border-red-500 bg-red-50'
                               : 'border-gray-200 hover:border-gray-300'
                           }`}
                         >
@@ -457,7 +457,7 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
                               <p className="text-sm text-gray-600">{item.category}</p>
                             </div>
                             {isSelected && (
-                              <CheckCircle className="w-5 h-5 text-blue-600" />
+                              <CheckCircle className="w-5 h-5 text-red-600" />
                             )}
                           </div>
                         </div>
@@ -481,7 +481,7 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
                     value={formData.date}
                     onChange={(e) => setFormData({ ...formData, date: e.target.value })}
                     min={new Date().toISOString().split('T')[0]}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                   />
                 </div>
                 <div>
@@ -495,7 +495,7 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
                         onClick={() => setFormData({ ...formData, time })}
                         className={`p-2 text-sm border rounded-lg transition-colors ${
                           formData.time === time
-                            ? 'bg-blue-600 text-white border-blue-600'
+                            ? 'bg-red-600 text-white border-red-600'
                             : 'border-gray-300 hover:border-gray-400'
                         }`}
                       >
@@ -512,7 +512,7 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
                 <textarea
                   value={formData.notes}
                   onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                   rows="3"
                   placeholder="Any special requirements or notes..."
                 />
@@ -532,7 +532,7 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
               <button
                 onClick={() => setCurrentStep(currentStep + 1)}
                 disabled={!isStepValid(currentStep)}
-                className="flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="flex items-center px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 Next
                 <ArrowRight className="w-4 h-4 ml-2" />
@@ -541,7 +541,7 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
               <button
                 onClick={handleSubmit}
                 disabled={!isStepValid(currentStep)}
-                className="flex items-center px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="flex items-center px-6 py-3 bg-rose-600 text-white rounded-lg hover:bg-rose-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 Submit Appointment
                 <CheckCircle className="w-4 h-4 ml-2" />
@@ -680,23 +680,23 @@ const InventoryAccessSystem = ({ onLogout, currentUser, userRole }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-3">
-              <Package className="w-8 h-8 text-blue-600" />
+              <Package className="w-8 h-8 text-red-600" />
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">InventoryPro</h1>
-                <p className="text-sm text-gray-500">Smart Inventory Management</p>
+                <h1 className="text-2xl font-bold text-gray-900">Inventory Access System</h1>
+                <p className="text-sm text-gray-500">Digital Transformation Center</p>
               </div>
             </div>
             <div className="flex items-center space-x-4">
               <button
                 onClick={() => setScanMode(true)}
-                className="flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all transform hover:scale-105"
+                className="flex items-center space-x-2 bg-gradient-to-r from-red-600 to-rose-600 text-white px-4 py-2 rounded-lg hover:from-red-700 hover:to-rose-700 transition-all transform hover:scale-105"
               >
                 <Scan className="w-5 h-5" />
                 <span>Scan QR</span>
               </button>
               <div className="flex items-center space-x-3 px-4 py-2 bg-gray-100 rounded-lg">
                 <div className="flex items-center space-x-2">
-                  {userRole === 'admin' ? <Shield className="w-5 h-5 text-blue-600" /> : <User className="w-5 h-5 text-gray-600" />}
+                  {userRole === 'admin' ? <Shield className="w-5 h-5 text-red-600" /> : <User className="w-5 h-5 text-gray-600" />}
                   <div className="text-sm">
                     <p className="font-medium text-gray-900">{currentUser?.name}</p>
                     <p className="text-gray-500 capitalize">{userRole}</p>
@@ -723,7 +723,7 @@ const InventoryAccessSystem = ({ onLogout, currentUser, userRole }) => {
                 onClick={() => setCurrentView(view)}
                 className={`py-4 px-2 border-b-2 text-sm font-medium capitalize transition-colors ${
                   currentView === view
-                    ? 'border-blue-500 text-blue-600'
+                    ? 'border-red-500 text-red-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700'
                 }`}
               >
@@ -736,11 +736,11 @@ const InventoryAccessSystem = ({ onLogout, currentUser, userRole }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {currentView === 'dashboard' && (
           <div className="space-y-8">
-            <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-8 text-white">
+            <div className="bg-gradient-to-r from-red-600 to-rose-600 rounded-2xl p-8 text-white">
               <div className="flex items-center justify-between">
                 <div>
                   <h2 className="text-3xl font-bold mb-2">Welcome back, {currentUser?.name}!</h2>
-                  <p className="text-blue-100">Here's what's happening with your inventory today.</p>
+                  <p className="text-red-100">Here's what's happening with your inventory today.</p>
                 </div>
                 <div className="hidden md:block">
                   <div className="w-24 h-24 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
@@ -750,50 +750,71 @@ const InventoryAccessSystem = ({ onLogout, currentUser, userRole }) => {
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+              <button
+                className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow text-left focus:outline-none"
+                onClick={() => {
+                  setCurrentView('items');
+                  setFilterStatus('');
+                }}
+              >
                 <div className="flex items-center">
-                  <div className="p-3 bg-blue-100 rounded-lg">
-                    <Package className="w-8 h-8 text-blue-600" />
+                  <div className="p-3 bg-red-100 rounded-lg">
+                    <Package className="w-8 h-8 text-red-600" />
                   </div>
                   <div className="ml-4">
                     <p className="text-sm font-medium text-gray-600">Total Items</p>
                     <p className="text-2xl font-bold text-gray-900">{items.length}</p>
                   </div>
                 </div>
-              </div>
-              <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+              </button>
+              <button
+                className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow text-left focus:outline-none"
+                onClick={() => {
+                  setCurrentView('items');
+                  setFilterStatus('available');
+                }}
+              >
                 <div className="flex items-center">
-                  <div className="p-3 bg-green-100 rounded-lg">
-                    <CheckCircle className="w-8 h-8 text-green-600" />
+                  <div className="p-3 bg-rose-100 rounded-lg">
+                    <CheckCircle className="w-8 h-8 text-rose-600" />
                   </div>
                   <div className="ml-4">
                     <p className="text-sm font-medium text-gray-600">Available</p>
                     <p className="text-2xl font-bold text-gray-900">{availableItems.length}</p>
                   </div>
                 </div>
-              </div>
-              <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+              </button>
+              <button
+                className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow text-left focus:outline-none"
+                onClick={() => {
+                  setCurrentView('items');
+                  setFilterStatus('borrowed');
+                }}
+              >
                 <div className="flex items-center">
-                  <div className="p-3 bg-orange-100 rounded-lg">
-                    <AlertCircle className="w-8 h-8 text-orange-600" />
+                  <div className="p-3 bg-red-100 rounded-lg">
+                    <AlertCircle className="w-8 h-8 text-red-600" />
                   </div>
                   <div className="ml-4">
                     <p className="text-sm font-medium text-gray-600">Borrowed</p>
                     <p className="text-2xl font-bold text-gray-900">{borrowedItems.length}</p>
                   </div>
                 </div>
-              </div>
-              <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+              </button>
+              <button
+                className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow text-left focus:outline-none"
+                onClick={() => setCurrentView('borrowings')}
+              >
                 <div className="flex items-center">
-                  <div className="p-3 bg-purple-100 rounded-lg">
-                    <Users className="w-8 h-8 text-purple-600" />
+                  <div className="p-3 bg-rose-100 rounded-lg">
+                    <Users className="w-8 h-8 text-rose-600" />
                   </div>
                   <div className="ml-4">
                     <p className="text-sm font-medium text-gray-600">Active Loans</p>
                     <p className="text-2xl font-bold text-gray-900">{activeBorrowings.length}</p>
                   </div>
                 </div>
-              </div>
+              </button>
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               <div className="bg-white rounded-xl shadow-sm border border-gray-100">
@@ -808,15 +829,15 @@ const InventoryAccessSystem = ({ onLogout, currentUser, userRole }) => {
                         return (
                           <div key={transaction.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                             <div className="flex items-center space-x-3">
-                              <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                                <Package className="w-5 h-5 text-blue-600" />
+                              <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                                <Package className="w-5 h-5 text-red-600" />
                               </div>
                               <div>
                                 <p className="font-medium text-gray-900">{item?.description}</p>
                                 <p className="text-sm text-gray-500">{transaction.borrowerName}</p>
                               </div>
                             </div>
-                            <span className="px-2 py-1 text-xs font-semibold rounded-full bg-orange-100 text-orange-800">
+                            <span className="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">
                               Borrowed
                             </span>
                           </div>
@@ -836,33 +857,33 @@ const InventoryAccessSystem = ({ onLogout, currentUser, userRole }) => {
                   <div className="grid grid-cols-2 gap-4">
                     <button
                       onClick={() => setCurrentView('items')}
-                      className="flex flex-col items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
+                      className="flex flex-col items-center p-4 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
                     >
-                      <Search className="w-8 h-8 text-blue-600 mb-2" />
-                      <span className="text-sm font-medium text-blue-600">Browse Items</span>
+                      <Search className="w-8 h-8 text-red-600 mb-2" />
+                      <span className="text-sm font-medium text-red-600">Browse Items</span>
                     </button>
                     <button
                       onClick={() => setScanMode(true)}
-                      className="flex flex-col items-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors"
+                      className="flex flex-col items-center p-4 bg-rose-50 rounded-lg hover:bg-rose-100 transition-colors"
                     >
-                      <Scan className="w-8 h-8 text-green-600 mb-2" />
-                      <span className="text-sm font-medium text-green-600">Scan QR Code</span>
+                      <Scan className="w-8 h-8 text-rose-600 mb-2" />
+                      <span className="text-sm font-medium text-rose-600">Scan QR Code</span>
                     </button>
                     {userRole === 'admin' && (
                       <>
                         <button
                           onClick={() => setCurrentView('add-item')}
-                          className="flex flex-col items-center p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors"
+                          className="flex flex-col items-center p-4 bg-rose-50 rounded-lg hover:bg-rose-100 transition-colors"
                         >
-                          <Plus className="w-8 h-8 text-purple-600 mb-2" />
-                          <span className="text-sm font-medium text-purple-600">Add Item</span>
+                          <Plus className="w-8 h-8 text-rose-600 mb-2" />
+                          <span className="text-sm font-medium text-rose-600">Add Item</span>
                         </button>
                         <button
                           onClick={() => setCurrentView('analytics')}
-                          className="flex flex-col items-center p-4 bg-orange-50 rounded-lg hover:bg-orange-100 transition-colors"
+                          className="flex flex-col items-center p-4 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
                         >
-                          <BarChart3 className="w-8 h-8 text-orange-600 mb-2" />
-                          <span className="text-sm font-medium text-orange-600">Analytics</span>
+                          <BarChart3 className="w-8 h-8 text-red-600 mb-2" />
+                          <span className="text-sm font-medium text-red-600">Analytics</span>
                         </button>
                       </>
                     )}
@@ -887,13 +908,13 @@ const InventoryAccessSystem = ({ onLogout, currentUser, userRole }) => {
                     placeholder="Search items..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full sm:w-64"
+                    className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent w-full sm:w-64"
                   />
                 </div>
                 <select
                   value={filterCategory}
                   onChange={(e) => setFilterCategory(e.target.value)}
-                  className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 >
                   <option value="">All Categories</option>
                   {categories.map(category => (
@@ -903,7 +924,7 @@ const InventoryAccessSystem = ({ onLogout, currentUser, userRole }) => {
                 <select
                   value={filterStatus}
                   onChange={(e) => setFilterStatus(e.target.value)}
-                  className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 >
                   <option value="">All Status</option>
                   <option value="available">Available</option>
@@ -933,9 +954,9 @@ const InventoryAccessSystem = ({ onLogout, currentUser, userRole }) => {
                       </div>
                       <span className={`px-3 py-1 text-xs font-semibold rounded-full ${
                         item.status === 'available'
-                          ? 'bg-green-100 text-green-800'
+                          ? 'bg-rose-100 text-rose-800'
                           : item.status === 'borrowed'
-                            ? 'bg-orange-100 text-orange-800'
+                            ? 'bg-red-100 text-red-800'
                             : 'bg-red-100 text-red-800'
                       }`}>
                         {item.status}
@@ -951,7 +972,7 @@ const InventoryAccessSystem = ({ onLogout, currentUser, userRole }) => {
                             setSelectedItem(item);
                             setCurrentView('borrow');
                           }}
-                          className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all transform hover:scale-105 text-sm font-medium"
+                          className="bg-gradient-to-r from-red-600 to-rose-600 text-white px-4 py-2 rounded-lg hover:from-red-700 hover:to-rose-700 transition-all transform hover:scale-105 text-sm font-medium"
                         >
                           Borrow
                         </button>
@@ -967,8 +988,8 @@ const InventoryAccessSystem = ({ onLogout, currentUser, userRole }) => {
           <div className="max-w-2xl mx-auto">
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
               <div className="text-center mb-8">
-                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Package className="w-8 h-8 text-blue-600" />
+                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Package className="w-8 h-8 text-red-600" />
                 </div>
                 <h2 className="text-2xl font-bold text-gray-900 mb-2">Borrow Item</h2>
                 <p className="text-gray-600">Fill out the form below to borrow this item</p>
@@ -1005,7 +1026,7 @@ const InventoryAccessSystem = ({ onLogout, currentUser, userRole }) => {
                       type="text"
                       value={borrowForm.borrowerName}
                       onChange={(e) => setBorrowForm({ ...borrowForm, borrowerName: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
                       placeholder="Enter full name"
                       required
                     />
@@ -1019,7 +1040,7 @@ const InventoryAccessSystem = ({ onLogout, currentUser, userRole }) => {
                       type="email"
                       value={borrowForm.borrowerEmail}
                       onChange={(e) => setBorrowForm({ ...borrowForm, borrowerEmail: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
                       placeholder="Enter email address"
                       required
                     />
@@ -1033,7 +1054,7 @@ const InventoryAccessSystem = ({ onLogout, currentUser, userRole }) => {
                       type="text"
                       value={borrowForm.office}
                       onChange={(e) => setBorrowForm({ ...borrowForm, office: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
                       placeholder="Enter department"
                       required
                     />
@@ -1047,14 +1068,14 @@ const InventoryAccessSystem = ({ onLogout, currentUser, userRole }) => {
                       type="date"
                       value={borrowForm.expectedReturn}
                       onChange={(e) => setBorrowForm({ ...borrowForm, expectedReturn: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
                     />
                   </div>
                 </div>
                 <div className="flex space-x-4 pt-6">
                   <button
                     onClick={handleBorrow}
-                    className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 px-6 rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all transform hover:scale-105 font-medium"
+                    className="flex-1 bg-gradient-to-r from-red-600 to-rose-600 text-white py-3 px-6 rounded-lg hover:from-red-700 hover:to-rose-700 transition-all transform hover:scale-105 font-medium"
                   >
                     Confirm Borrow
                   </button>
@@ -1076,8 +1097,8 @@ const InventoryAccessSystem = ({ onLogout, currentUser, userRole }) => {
           <div className="max-w-2xl mx-auto">
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
               <div className="text-center mb-8">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Plus className="w-8 h-8 text-green-600" />
+                <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Plus className="w-8 h-8 text-rose-600" />
                 </div>
                 <h2 className="text-2xl font-bold text-gray-900 mb-2">Add New Item</h2>
                 <p className="text-gray-600">Add a new item to the inventory system</p>
@@ -1093,7 +1114,7 @@ const InventoryAccessSystem = ({ onLogout, currentUser, userRole }) => {
                       type="text"
                       value={newItem.description}
                       onChange={(e) => setNewItem({ ...newItem, description: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
                       placeholder="e.g., MacBook Pro 13-inch"
                       required
                     />
@@ -1104,7 +1125,7 @@ const InventoryAccessSystem = ({ onLogout, currentUser, userRole }) => {
                       type="text"
                       value={newItem.serialNo}
                       onChange={(e) => setNewItem({ ...newItem, serialNo: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
                       placeholder="e.g., MBP001"
                       required
                     />
@@ -1114,7 +1135,7 @@ const InventoryAccessSystem = ({ onLogout, currentUser, userRole }) => {
                     <select
                       value={newItem.category}
                       onChange={(e) => setNewItem({ ...newItem, category: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
                     >
                       <option value="">Select Category</option>
                       <option value="Electronics">Electronics</option>
@@ -1132,7 +1153,7 @@ const InventoryAccessSystem = ({ onLogout, currentUser, userRole }) => {
                       type="text"
                       value={newItem.location}
                       onChange={(e) => setNewItem({ ...newItem, location: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
                       placeholder="e.g., Storage A1"
                     />
                   </div>
@@ -1140,7 +1161,7 @@ const InventoryAccessSystem = ({ onLogout, currentUser, userRole }) => {
                 <div className="flex space-x-4 pt-6">
                   <button
                     onClick={handleAddItem}
-                    className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 px-6 rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all transform hover:scale-105 font-medium"
+                    className="flex-1 bg-gradient-to-r from-rose-600 to-pink-600 text-white py-3 px-6 rounded-lg hover:from-rose-700 hover:to-pink-700 transition-all transform hover:scale-105 font-medium"
                   >
                     Add Item
                   </button>
@@ -1186,8 +1207,8 @@ const InventoryAccessSystem = ({ onLogout, currentUser, userRole }) => {
                         <tr key={transaction.id} className="hover:bg-gray-50">
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex items-center">
-                              <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
-                                <Package className="w-5 h-5 text-blue-600" />
+                              <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center mr-3">
+                                <Package className="w-5 h-5 text-red-600" />
                               </div>
                               <div>
                                 <div className="text-sm font-medium text-gray-900">{item?.description}</div>
@@ -1216,8 +1237,8 @@ const InventoryAccessSystem = ({ onLogout, currentUser, userRole }) => {
                           <td className="px-6 py-4 whitespace-nowrap">
                             <span className={`px-3 py-1 text-xs font-semibold rounded-full ${
                               transaction.status === 'returned'
-                                ? 'bg-green-100 text-green-800'
-                                : 'bg-orange-100 text-orange-800'
+                                ? 'bg-rose-100 text-rose-800'
+                                : 'bg-red-100 text-red-800'
                             }`}>
                               {transaction.status}
                             </span>
@@ -1227,7 +1248,7 @@ const InventoryAccessSystem = ({ onLogout, currentUser, userRole }) => {
                               {transaction.status === 'borrowed' && (
                                 <button
                                   onClick={() => handleReturn(transaction.id)}
-                                  className="text-green-600 hover:text-green-900 font-medium"
+                                  className="text-rose-600 hover:text-rose-900 font-medium"
                                 >
                                   Mark Returned
                                 </button>
@@ -1258,8 +1279,8 @@ const InventoryAccessSystem = ({ onLogout, currentUser, userRole }) => {
                       {Math.round((borrowedItems.length / items.length) * 100)}%
                     </p>
                   </div>
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <BarChart3 className="w-6 h-6 text-blue-600" />
+                  <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                    <BarChart3 className="w-6 h-6 text-red-600" />
                   </div>
                 </div>
               </div>
@@ -1269,8 +1290,8 @@ const InventoryAccessSystem = ({ onLogout, currentUser, userRole }) => {
                     <p className="text-sm font-medium text-gray-600">Total Transactions</p>
                     <p className="text-2xl font-bold text-gray-900">{transactions.length}</p>
                   </div>
-                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                    <Users className="w-6 h-6 text-green-600" />
+                  <div className="w-12 h-12 bg-rose-100 rounded-lg flex items-center justify-center">
+                    <Users className="w-6 h-6 text-rose-600" />
                   </div>
                 </div>
               </div>
@@ -1291,8 +1312,8 @@ const InventoryAccessSystem = ({ onLogout, currentUser, userRole }) => {
                     <p className="text-sm font-medium text-gray-600">Average Loan Duration</p>
                     <p className="text-2xl font-bold text-gray-900">7 days</p>
                   </div>
-                  <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                    <Clock className="w-6 h-6 text-purple-600" />
+                  <div className="w-12 h-12 bg-rose-100 rounded-lg flex items-center justify-center">
+                    <Clock className="w-6 h-6 text-rose-600" />
                   </div>
                 </div>
               </div>
@@ -1310,7 +1331,7 @@ const InventoryAccessSystem = ({ onLogout, currentUser, userRole }) => {
                         <div className="flex items-center space-x-3">
                           <div className="w-24 bg-gray-200 rounded-full h-2">
                             <div
-                              className="bg-blue-600 h-2 rounded-full"
+                              className="bg-red-600 h-2 rounded-full"
                               style={{ width: `${percentage}%` }}
                             ></div>
                           </div>
@@ -1325,8 +1346,8 @@ const InventoryAccessSystem = ({ onLogout, currentUser, userRole }) => {
                 <h3 className="text-lg font-semibold text-gray-900 mb-6">Status Overview</h3>
                 <div className="space-y-4">
                   {[
-                    { status: 'Available', count: availableItems.length, color: 'bg-green-600' },
-                    { status: 'Borrowed', count: borrowedItems.length, color: 'bg-orange-600' },
+                    { status: 'Available', count: availableItems.length, color: 'bg-rose-600' },
+                    { status: 'Borrowed', count: borrowedItems.length, color: 'bg-red-600' },
                     { status: 'Maintenance', count: maintenanceItems.length, color: 'bg-red-600' }
                   ].map(({ status, count, color }) => {
                     const percentage = Math.round((count / items.length) * 100);
@@ -1378,7 +1399,7 @@ const InventoryAccessSystem = ({ onLogout, currentUser, userRole }) => {
                     <button
                       key={item.id}
                       onClick={() => simulateQRScan(item.qrCode)}
-                      className="text-xs bg-blue-50 text-blue-700 px-3 py-2 rounded-lg hover:bg-blue-100 transition-colors font-medium border border-blue-200"
+                      className="text-xs bg-red-50 text-red-700 px-3 py-2 rounded-lg hover:bg-red-100 transition-colors font-medium border border-red-200"
                     >
                       {item.qrCode}
                     </button>
@@ -1428,16 +1449,24 @@ const App = () => {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+      <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-rose-50">
         <div className="flex min-h-screen">
-          <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-blue-600 to-indigo-700 relative overflow-hidden">
+          <div
+            className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-red-600 to-rose-700 relative overflow-hidden"
+            style={{
+              backgroundImage: "url('/dtc-bg.png')",
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat'
+            }}
+          >
             <div className="absolute inset-0 bg-black opacity-20"></div>
             <div className="relative z-10 flex flex-col justify-center px-12 text-white">
               <div className="flex items-center mb-8">
                 <Package className="w-12 h-12 mr-4" />
-                <h1 className="text-4xl font-bold">InventoryPro</h1>
+                <h1 className="text-4xl font-bold">Inventory Access System</h1>
               </div>
-              <h2 className="text-3xl font-light mb-6">Smart Inventory Access Management</h2>
+              <h2 className="text-3xl font-light mb-6">Digital Transformation Center</h2>
               <p className="text-xl opacity-90 mb-8">Streamline your inventory operations with our comprehensive tracking and borrowing system.</p>
               <div className="space-y-4">
                 <div className="flex items-center">
@@ -1457,47 +1486,49 @@ const App = () => {
             <div className="absolute top-20 right-20 w-64 h-64 rounded-full bg-white opacity-10"></div>
             <div className="absolute bottom-20 right-10 w-32 h-32 rounded-full bg-white opacity-10"></div>
           </div>
-          <div className="w-full lg:w-1/2 flex items-center justify-center px-8">
-            <div className="max-w-md w-full">
+          <div className="w-full lg:w-1/2 flex items-center justify-center px-8 bg-secondary-light min-h-screen">
+            <div className="max-w-md w-full relative">
+              {/* Red accent bar at the top */}
+              <div className="h-2 w-24 rounded-full bg-primary absolute -top-6 left-1/2 transform -translate-x-1/2 shadow-lg"></div>
               <div className="text-center mb-8">
                 <div className="flex items-center justify-center mb-4 lg:hidden">
-                  <Package className="w-10 h-10 text-blue-600 mr-3" />
-                  <h1 className="text-2xl font-bold text-gray-900">InventoryPro</h1>
+                  <Package className="w-10 h-10 text-primary mr-3" />
+                  <h1 className="text-2xl font-bold text-secondary">InventoryPro</h1>
                 </div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h2>
-                <p className="text-gray-600">Sign in to access your inventory system</p>
+                <h2 className="text-3xl font-bold text-secondary mb-2">Welcome Back</h2>
+                <p className="text-secondary">Sign in to access your inventory system</p>
               </div>
-              <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+              <div className="bg-white rounded-2xl shadow-xl p-8 border border-secondary/30">
                 <div className="space-y-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                    <label className="block text-sm font-medium text-secondary mb-2">Email Address</label>
                     <input
                       type="email"
                       value={loginForm.email}
                       onChange={(e) => setLoginForm({ ...loginForm, email: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-secondary-light/40 text-secondary"
                       placeholder="Enter your email"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                    <label className="block text-sm font-medium text-secondary mb-2">Password</label>
                     <input
                       type="password"
                       value={loginForm.password}
                       onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-secondary-light/40 text-secondary"
                       placeholder="Enter your password"
                     />
                   </div>
                   <button
                     onClick={handleLogin}
-                    className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 px-4 rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all transform hover:scale-105 font-medium"
+                    className="w-full bg-primary text-white py-3 px-4 rounded-lg hover:bg-primary-dark transition-all transform hover:scale-105 font-medium shadow-md"
                   >
                     Sign In
                   </button>
-                  <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-                    <p className="text-sm text-gray-600 font-medium mb-2">Demo Accounts:</p>
-                    <div className="space-y-1 text-xs text-gray-500">
+                  <div className="mt-6 p-4 bg-secondary-light/60 rounded-lg">
+                    <p className="text-sm text-secondary font-medium mb-2">Demo Accounts:</p>
+                    <div className="space-y-1 text-xs text-secondary/70">
                       <p><strong>Admin:</strong> admin@company.com / admin123</p>
                       <p><strong>User:</strong> user@company.com / user123</p>
                     </div>
@@ -1520,14 +1551,14 @@ const App = () => {
             <span className="text-lg font-semibold">Current View:</span>
             <button
               onClick={() => setCurrentSystem('user')}
-              className={`px-4 py-1 rounded-full ${currentSystem === 'user' ? 'bg-blue-600' : 'bg-gray-700 hover:bg-gray-600'}`}
+              className={`px-4 py-1 rounded-full ${currentSystem === 'user' ? 'bg-red-600' : 'bg-gray-700 hover:bg-gray-600'}`}
             >
               User Appointment System
             </button>
             {userRole === 'admin' && (
               <button
                 onClick={() => setCurrentSystem('admin')}
-                className={`px-4 py-1 rounded-full ${currentSystem === 'admin' ? 'bg-blue-600' : 'bg-gray-700 hover:bg-gray-600'}`}
+                className={`px-4 py-1 rounded-full ${currentSystem === 'admin' ? 'bg-red-600' : 'bg-gray-700 hover:bg-gray-600'}`}
               >
                 Admin Inventory System
               </button>
@@ -1560,7 +1591,7 @@ const App = () => {
             <p className="text-gray-600">You do not have administrative privileges to view this system.</p>
             <button
               onClick={() => setCurrentSystem('user')}
-              className="mt-6 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+              className="mt-6 bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors font-medium"
             >
               Go to User System
             </button>
