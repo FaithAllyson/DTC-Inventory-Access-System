@@ -91,15 +91,20 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
         <React.Fragment key={step}>
           <div className={`flex items-center justify-center w-10 h-10 rounded-full border-2 ${
             currentStep >= step
-              ? 'bg-red-600 border-red-600 text-white'
+              ? 'text-white'
               : 'border-gray-300 text-gray-400'
-          }`}>
+          }`} style={{
+            backgroundColor: currentStep >= step ? '#C1121F' : 'transparent',
+            borderColor: currentStep >= step ? '#C1121F' : '#d1d5db'
+          }}>
             {currentStep > step ? <CheckCircle className="w-5 h-5" /> : step}
           </div>
           {step < 4 && (
             <div className={`w-12 h-0.5 ${
-              currentStep > step ? 'bg-red-600' : 'bg-gray-300'
-            }`} />
+              currentStep > step ? '' : 'bg-gray-300'
+            }`} style={{
+              backgroundColor: currentStep > step ? '#C1121F' : '#d1d5db'
+            }} />
           )}
         </React.Fragment>
       ))}
@@ -108,29 +113,29 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
 
   if (currentStep === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-red-50 to-rose-100">
-        <div className="bg-white shadow-sm">
+      <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)' }}>
+        <div className="bg-white shadow-sm" style={{ backgroundColor: '#162C49' }}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center space-x-4">
-                <div className="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center">
-                  <Package className="w-6 h-6 text-white" />
+                <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+                  <Package className="w-6 h-6" style={{ color: '#162C49' }} />
                 </div>
                 <div>
-                  <h1 className="text-xl font-bold text-gray-900">Inventory Access</h1>
-                  <p className="text-sm text-gray-600">Appointment System</p>
+                  <h1 className="text-xl font-bold text-white">Inventory Access System</h1>
+                  <p className="text-sm text-gray-300">Digital Transformation Center</p>
                 </div>
               </div>
               <div className="flex items-center space-x-4">
                 {currentUser && (
                   <div className="flex items-center space-x-2">
-                    <User className="w-5 h-5 text-gray-600" />
-                    <span className="text-sm font-medium text-gray-700">{currentUser.name} ({userRole})</span>
+                    <User className="w-5 h-5 text-white" />
+                    <span className="text-sm font-medium text-white">{currentUser.name} ({userRole})</span>
                   </div>
                 )}
                 <button
                   onClick={() => setCurrentStep(1)}
-                  className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors font-medium"
+                  className="bg-white text-gray-900 px-6 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium"
                 >
                   Book Appointment
                 </button>
@@ -146,77 +151,103 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl font-bold mb-4" style={{ color: '#162C49' }}>
               Schedule Your Inventory Access
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl max-w-3xl mx-auto" style={{ color: '#6c757d' }}>
               Book appointments to retrieve, return, or inspect equipment.
               Streamline your inventory management with our easy scheduling system.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-            <div className="bg-white rounded-xl shadow-sm p-6 text-center">
-              <div className="w-12 h-12 bg-rose-100 rounded-lg flex items-center justify-center mx-auto mb-3">
-                <CheckCircle className="w-6 h-6 text-rose-600" />
+            <div className="bg-white rounded-xl p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105" style={{ 
+              boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)'
+            }}>
+              <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ 
+                backgroundColor: '#C1121F',
+                boxShadow: '0 4px 15px rgba(193, 18, 31, 0.3)'
+              }}>
+                <CheckCircle className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900">
+              <h3 className="text-3xl font-bold mb-2" style={{ color: '#162C49' }}>
                 {appointments.filter(a => a.status === 'confirmed').length}
               </h3>
-              <p className="text-sm text-gray-600">Confirmed Today</p>
+              <p className="text-sm" style={{ color: '#6c757d' }}>Confirmed Today</p>
             </div>
-            <div className="bg-white rounded-xl shadow-sm p-6 text-center">
-              <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mx-auto mb-3">
-                <Clock className="w-6 h-6 text-red-600" />
+            <div className="bg-white rounded-xl p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105" style={{ 
+              boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)'
+            }}>
+              <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ 
+                backgroundColor: '#162C49',
+                boxShadow: '0 4px 15px rgba(22, 44, 73, 0.3)'
+              }}>
+                <Clock className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900">
+              <h3 className="text-3xl font-bold mb-2" style={{ color: '#162C49' }}>
                 {appointments.filter(a => a.status === 'pending').length}
               </h3>
-              <p className="text-sm text-gray-600">Pending Approval</p>
+              <p className="text-sm" style={{ color: '#6c757d' }}>Pending Approval</p>
             </div>
-            <div className="bg-white rounded-xl shadow-sm p-6 text-center">
-              <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mx-auto mb-3">
-                <Package className="w-6 h-6 text-red-600" />
+            <div className="bg-white rounded-xl p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105" style={{ 
+              boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)'
+            }}>
+              <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ 
+                backgroundColor: '#C1121F',
+                boxShadow: '0 4px 15px rgba(193, 18, 31, 0.3)'
+              }}>
+                <Package className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900">
+              <h3 className="text-3xl font-bold mb-2" style={{ color: '#162C49' }}>
                 {availableItems.filter(i => i.status === 'available').length}
               </h3>
-              <p className="text-sm text-gray-600">Items Available</p>
+              <p className="text-sm" style={{ color: '#6c757d' }}>Items Available</p>
             </div>
-            <div className="bg-white rounded-xl shadow-sm p-6 text-center">
-              <div className="w-12 h-12 bg-rose-100 rounded-lg flex items-center justify-center mx-auto mb-3">
-                <Calendar className="w-6 h-6 text-rose-600" />
+            <div className="bg-white rounded-xl p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105" style={{ 
+              boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)'
+            }}>
+              <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ 
+                backgroundColor: '#162C49',
+                boxShadow: '0 4px 15px rgba(22, 44, 73, 0.3)'
+              }}>
+                <Calendar className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900">24/7</h3>
-              <p className="text-sm text-gray-600">Online Booking</p>
+              <h3 className="text-3xl font-bold mb-2" style={{ color: '#162C49' }}>24/7</h3>
+              <p className="text-sm" style={{ color: '#6c757d' }}>Online Booking</p>
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-900">Recent Appointments</h3>
+          <div className="rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300" style={{ 
+            background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)',
+            boxShadow: '0 4px 15px rgba(22, 44, 73, 0.1)',
+            border: '1px solid rgba(22, 44, 73, 0.1)'
+          }}>
+            <div className="px-6 py-4 border-b" style={{ borderColor: 'rgba(22, 44, 73, 0.1)' }}>
+              <h3 className="text-lg font-semibold" style={{ color: '#162C49' }}>Recent Appointments</h3>
             </div>
-            <div className="divide-y divide-gray-200">
+            <div className="divide-y" style={{ borderColor: 'rgba(22, 44, 73, 0.1)' }}>
               {appointments.slice(0, 5).map((appointment) => (
-                <div key={appointment.id} className="px-6 py-4 flex items-center justify-between">
+                <div key={appointment.id} className="px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors duration-200">
                   <div className="flex items-center space-x-4">
-                    <div className={`w-3 h-3 rounded-full ${
-                      appointment.status === 'confirmed' ? 'bg-rose-400' :
-                        appointment.status === 'pending' ? 'bg-red-400' : 'bg-red-400'
-                    }`} />
+                    <div className={`w-4 h-4 rounded-full ${
+                      appointment.status === 'confirmed' ? 'bg-green-500' :
+                        appointment.status === 'pending' ? 'bg-yellow-500' : 'bg-yellow-500'
+                    }`} style={{
+                      boxShadow: appointment.status === 'confirmed' ? '0 0 10px rgba(34, 197, 94, 0.3)' : '0 0 10px rgba(234, 179, 8, 0.3)'
+                    }} />
                     <div>
-                      <p className="font-medium text-gray-900">{appointment.requesterName}</p>
-                      <p className="text-sm text-gray-600">{appointment.department}</p>
+                      <p className="font-medium" style={{ color: '#162C49' }}>{appointment.requesterName}</p>
+                      <p className="text-sm" style={{ color: '#6c757d' }}>{appointment.department}</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-medium text-gray-900">
+                    <p className="text-sm font-medium" style={{ color: '#162C49' }}>
                       {appointment.date} at {appointment.time}
                     </p>
-                    <p className="text-sm text-gray-600">{appointment.purpose}</p>
+                    <p className="text-sm" style={{ color: '#6c757d' }}>{appointment.purpose}</p>
                   </div>
-                  <div className={`px-3 py-1 rounded-full text-xs font-medium ${
-                    appointment.status === 'confirmed' ? 'bg-rose-100 text-rose-800' :
-                      appointment.status === 'pending' ? 'bg-red-100 text-red-800' : 'bg-red-100 text-red-800'
-                  }`}>
+                  <div className={`px-4 py-2 rounded-full text-xs font-medium text-white transition-all duration-200`} style={{
+                    backgroundColor: appointment.status === 'confirmed' ? '#C1121F' : '#162C49',
+                    boxShadow: appointment.status === 'confirmed' ? '0 2px 8px rgba(193, 18, 31, 0.3)' : '0 2px 8px rgba(22, 44, 73, 0.3)'
+                  }}>
                     {appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}
                   </div>
                 </div>
@@ -230,28 +261,41 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
 
   if (currentStep === 5) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-rose-50 to-pink-100 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)' }}>
         <div className="max-w-md w-full mx-4">
-          <div className="bg-white rounded-2xl shadow-xl p-8 text-center">
-            <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <CheckCircle className="w-8 h-8 text-rose-600" />
+          <div className="rounded-2xl p-8 text-center hover:shadow-2xl transition-all duration-300 transform hover:scale-105" style={{ 
+            background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)',
+            boxShadow: '0 10px 30px rgba(22, 44, 73, 0.15)',
+            border: '1px solid rgba(22, 44, 73, 0.1)'
+          }}>
+            <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6" style={{ 
+              background: 'linear-gradient(135deg, #C1121F 0%, #a50f1a 100%)',
+              boxShadow: '0 8px 25px rgba(193, 18, 31, 0.3)'
+            }}>
+              <CheckCircle className="w-10 h-10 text-white" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            <h2 className="text-2xl font-bold mb-4" style={{ color: '#162C49' }}>
               Appointment Booked Successfully!
             </h2>
-            <p className="text-gray-600 mb-8">
+            <p className="mb-8" style={{ color: '#6c757d' }}>
               Your appointment request has been submitted. You will receive a confirmation email shortly.
             </p>
             <div className="space-y-3">
               <button
                 onClick={() => setCurrentStep(0)}
-                className="w-full bg-red-600 text-white py-3 px-4 rounded-lg hover:bg-red-700 transition-colors font-medium"
+                className="w-full text-white py-3 px-4 rounded-lg transition-colors font-medium"
+                style={{ backgroundColor: '#C1121F' }}
+                onMouseOver={(e) => e.target.style.backgroundColor = '#a50f1a'}
+                onMouseOut={(e) => e.target.style.backgroundColor = '#C1121F'}
               >
                 Back to Dashboard
               </button>
               <button
                 onClick={() => setCurrentStep(1)}
-                className="w-full bg-gray-100 text-gray-700 py-3 px-4 rounded-lg hover:bg-gray-200 transition-colors font-medium"
+                className="w-full py-3 px-4 rounded-lg transition-colors font-medium"
+                style={{ backgroundColor: '#162C49', color: 'white' }}
+                onMouseOver={(e) => e.target.style.backgroundColor = '#0f1f2e'}
+                onMouseOut={(e) => e.target.style.backgroundColor = '#162C49'}
               >
                 Book Another Appointment
               </button>
@@ -264,33 +308,37 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="bg-white shadow-sm">
+      <div className="bg-white shadow-sm" style={{ backgroundColor: '#162C49' }}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-4">
               <button
                 onClick={() => currentStep > 1 ? setCurrentStep(currentStep - 1) : setCurrentStep(0)}
-                className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                className="p-2 rounded-lg hover:bg-white hover:bg-opacity-20 transition-colors"
               >
-                <ArrowLeft className="w-5 h-5 text-gray-600" />
+                <ArrowLeft className="w-5 h-5 text-white" />
               </button>
               <div>
-                <h1 className="text-lg font-semibold text-gray-900">Book Appointment</h1>
-                <p className="text-sm text-gray-600">Step {currentStep} of 4</p>
+                <h1 className="text-lg font-semibold text-white">Book Appointment</h1>
+                <p className="text-sm text-gray-300">Step {currentStep} of 4</p>
               </div>
             </div>
             <button
               onClick={() => setCurrentStep(0)}
-              className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              className="p-2 rounded-lg hover:bg-white hover:bg-opacity-20 transition-colors"
             >
-              <X className="w-5 h-5 text-gray-600" />
+              <X className="w-5 h-5 text-white" />
             </button>
           </div>
         </div>
       </div>
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {renderStepIndicator()}
-        <div className="bg-white rounded-xl shadow-sm p-8">
+        <div className="rounded-xl p-8 hover:shadow-xl transition-all duration-300" style={{ 
+          background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)',
+          boxShadow: '0 4px 15px rgba(22, 44, 73, 0.1)',
+          border: '1px solid rgba(22, 44, 73, 0.1)'
+        }}>
           {currentStep === 1 && (
             <div>
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Personal Information</h2>
@@ -303,7 +351,19 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
                     type="text"
                     value={formData.requesterName}
                     onChange={(e) => setFormData({ ...formData, requesterName: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border rounded-lg transition-all duration-200"
+                    style={{ 
+                      borderColor: '#d1d5db',
+                      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#C1121F';
+                      e.target.style.boxShadow = '0 0 0 3px rgba(193, 18, 31, 0.1)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = '#d1d5db';
+                      e.target.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
+                    }}
                     placeholder="Enter your full name"
                   />
                 </div>
@@ -315,7 +375,19 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
                     type="email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border rounded-lg transition-all duration-200"
+                    style={{ 
+                      borderColor: '#d1d5db',
+                      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#C1121F';
+                      e.target.style.boxShadow = '0 0 0 3px rgba(193, 18, 31, 0.1)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = '#d1d5db';
+                      e.target.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
+                    }}
                     placeholder="your.email@company.com"
                   />
                 </div>
@@ -327,7 +399,19 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
                     type="tel"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border rounded-lg transition-all duration-200"
+                    style={{ 
+                      borderColor: '#d1d5db',
+                      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#C1121F';
+                      e.target.style.boxShadow = '0 0 0 3px rgba(193, 18, 31, 0.1)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = '#d1d5db';
+                      e.target.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
+                    }}
                     placeholder="+63 912 345 6789"
                   />
                 </div>
@@ -338,7 +422,19 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
                   <select
                     value={formData.department}
                     onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border rounded-lg transition-all duration-200"
+                    style={{ 
+                      borderColor: '#d1d5db',
+                      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#C1121F';
+                      e.target.style.boxShadow = '0 0 0 3px rgba(193, 18, 31, 0.1)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = '#d1d5db';
+                      e.target.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
+                    }}
                   >
                     <option value="">Select Department</option>
                     {departments.map((dept) => (
@@ -357,14 +453,22 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
                   <div
                     key={purpose.value}
                     onClick={() => setFormData({ ...formData, purpose: purpose.value })}
-                    className={`p-6 border-2 rounded-xl cursor-pointer transition-all ${
+                    className={`p-6 border-2 rounded-xl cursor-pointer transition-all duration-300 hover:shadow-lg ${
                       formData.purpose === purpose.value
-                        ? 'border-red-500 bg-red-50'
+                        ? 'border-red-500'
                         : 'border-gray-200 hover:border-gray-300'
                     }`}
+                    style={{
+                      background: formData.purpose === purpose.value 
+                        ? 'linear-gradient(135deg, rgba(193, 18, 31, 0.1) 0%, rgba(193, 18, 31, 0.05) 100%)'
+                        : 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)',
+                      boxShadow: formData.purpose === purpose.value 
+                        ? '0 4px 15px rgba(193, 18, 31, 0.2)'
+                        : '0 2px 8px rgba(0, 0, 0, 0.1)'
+                    }}
                   >
-                    <h3 className="font-semibold text-gray-900 mb-2">{purpose.label}</h3>
-                    <p className="text-sm text-gray-600">{purpose.description}</p>
+                    <h3 className="font-semibold mb-2" style={{ color: '#162C49' }}>{purpose.label}</h3>
+                    <p className="text-sm" style={{ color: '#6c757d' }}>{purpose.description}</p>
                   </div>
                 ))}
               </div>
@@ -376,14 +480,30 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
                 {formData.purpose === 'return' ? 'Items to Return' : 'Select Items'}
               </h2>
               {formData.purpose === 'return' ? (
-                <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-                  <p className="text-red-800 mb-4">
+                <div className="rounded-lg p-6" style={{
+                  background: 'linear-gradient(135deg, rgba(193, 18, 31, 0.1) 0%, rgba(193, 18, 31, 0.05) 100%)',
+                  border: '1px solid rgba(193, 18, 31, 0.2)',
+                  boxShadow: '0 4px 15px rgba(193, 18, 31, 0.1)'
+                }}>
+                  <p className="mb-4" style={{ color: '#C1121F' }}>
                     Please bring all items you wish to return. Our staff will verify and process them during your appointment.
                   </p>
                   <textarea
                     value={formData.notes}
                     onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border rounded-lg transition-all duration-200"
+                    style={{ 
+                      borderColor: '#d1d5db',
+                      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#C1121F';
+                      e.target.style.boxShadow = '0 0 0 3px rgba(193, 18, 31, 0.1)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = '#d1d5db';
+                      e.target.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
+                    }}
                     rows="4"
                     placeholder="List the items you're returning or add any special notes..."
                   />
@@ -398,7 +518,19 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
                           type="text"
                           value={searchTerm}
                           onChange={(e) => setSearchTerm(e.target.value)}
-                          className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                          className="w-full pl-10 pr-4 py-3 border rounded-lg transition-all duration-200"
+                          style={{ 
+                            borderColor: '#d1d5db',
+                            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
+                          }}
+                          onFocus={(e) => {
+                            e.target.style.borderColor = '#C1121F';
+                            e.target.style.boxShadow = '0 0 0 3px rgba(193, 18, 31, 0.1)';
+                          }}
+                          onBlur={(e) => {
+                            e.target.style.borderColor = '#d1d5db';
+                            e.target.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
+                          }}
                           placeholder="Search items..."
                         />
                       </div>
@@ -406,7 +538,19 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
                     <select
                       value={selectedCategory}
                       onChange={(e) => setSelectedCategory(e.target.value)}
-                      className="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                      className="px-4 py-3 border rounded-lg transition-all duration-200"
+                      style={{ 
+                        borderColor: '#d1d5db',
+                        boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = '#C1121F';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(193, 18, 31, 0.1)';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = '#d1d5db';
+                        e.target.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
+                      }}
                     >
                       {categories.map((category) => (
                         <option key={category} value={category}>
@@ -416,20 +560,28 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
                     </select>
                   </div>
                   {selectedItems.length > 0 && (
-                    <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-                      <h3 className="font-medium text-red-900 mb-2">
+                    <div className="mb-6 p-4 rounded-lg" style={{
+                      background: 'linear-gradient(135deg, rgba(22, 44, 73, 0.1) 0%, rgba(22, 44, 73, 0.05) 100%)',
+                      border: '1px solid rgba(22, 44, 73, 0.2)',
+                      boxShadow: '0 4px 15px rgba(22, 44, 73, 0.1)'
+                    }}>
+                      <h3 className="font-medium mb-2" style={{ color: '#162C49' }}>
                         Selected Items ({selectedItems.length})
                       </h3>
                       <div className="flex flex-wrap gap-2">
                         {selectedItems.map((item) => (
                           <span
                             key={item.id}
-                            className="inline-flex items-center px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm"
+                            className="inline-flex items-center px-3 py-1 rounded-full text-sm text-white transition-all duration-200"
+                            style={{
+                              backgroundColor: '#162C49',
+                              boxShadow: '0 2px 8px rgba(22, 44, 73, 0.3)'
+                            }}
                           >
                             {item.name}
                             <button
                               onClick={() => handleItemSelection(item)}
-                              className="ml-2 text-red-600 hover:text-red-800"
+                              className="ml-2 text-white hover:text-gray-300 transition-colors"
                             >
                               <X className="w-4 h-4" />
                             </button>
@@ -445,19 +597,27 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
                         <div
                           key={item.id}
                           onClick={() => handleItemSelection(item)}
-                          className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                          className={`p-4 border-2 rounded-lg cursor-pointer transition-all duration-300 hover:shadow-lg ${
                             isSelected
-                              ? 'border-red-500 bg-red-50'
+                              ? 'border-red-500'
                               : 'border-gray-200 hover:border-gray-300'
                           }`}
+                          style={{
+                            background: isSelected 
+                              ? 'linear-gradient(135deg, rgba(193, 18, 31, 0.1) 0%, rgba(193, 18, 31, 0.05) 100%)'
+                              : 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)',
+                            boxShadow: isSelected 
+                              ? '0 4px 15px rgba(193, 18, 31, 0.2)'
+                              : '0 2px 8px rgba(0, 0, 0, 0.1)'
+                          }}
                         >
                           <div className="flex items-center justify-between">
                             <div className="flex-1">
-                              <h3 className="font-medium text-gray-900">{item.name}</h3>
-                              <p className="text-sm text-gray-600">{item.category}</p>
+                              <h3 className="font-medium" style={{ color: '#162C49' }}>{item.name}</h3>
+                              <p className="text-sm" style={{ color: '#6c757d' }}>{item.category}</p>
                             </div>
                             {isSelected && (
-                              <CheckCircle className="w-5 h-5 text-red-600" />
+                              <CheckCircle className="w-5 h-5" style={{ color: '#C1121F' }} />
                             )}
                           </div>
                         </div>
@@ -481,7 +641,19 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
                     value={formData.date}
                     onChange={(e) => setFormData({ ...formData, date: e.target.value })}
                     min={new Date().toISOString().split('T')[0]}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border rounded-lg transition-all duration-200"
+                    style={{ 
+                      borderColor: '#d1d5db',
+                      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#C1121F';
+                      e.target.style.boxShadow = '0 0 0 3px rgba(193, 18, 31, 0.1)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = '#d1d5db';
+                      e.target.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
+                    }}
                   />
                 </div>
                 <div>
@@ -493,11 +665,25 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
                       <button
                         key={time}
                         onClick={() => setFormData({ ...formData, time })}
-                        className={`p-2 text-sm border rounded-lg transition-colors ${
+                        className={`p-2 text-sm border rounded-lg transition-all duration-200 ${
                           formData.time === time
-                            ? 'bg-red-600 text-white border-red-600'
+                            ? 'text-white border-transparent'
                             : 'border-gray-300 hover:border-gray-400'
                         }`}
+                        style={{
+                          backgroundColor: formData.time === time ? '#C1121F' : 'transparent',
+                          boxShadow: formData.time === time ? '0 2px 8px rgba(193, 18, 31, 0.3)' : 'none'
+                        }}
+                        onMouseOver={(e) => {
+                          if (formData.time !== time) {
+                            e.target.style.backgroundColor = '#f8f9fa';
+                          }
+                        }}
+                        onMouseOut={(e) => {
+                          if (formData.time !== time) {
+                            e.target.style.backgroundColor = 'transparent';
+                          }
+                        }}
                       >
                         {time}
                       </button>
@@ -512,7 +698,19 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
                 <textarea
                   value={formData.notes}
                   onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border rounded-lg transition-all duration-200"
+                  style={{ 
+                    borderColor: '#d1d5db',
+                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = '#C1121F';
+                    e.target.style.boxShadow = '0 0 0 3px rgba(193, 18, 31, 0.1)';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = '#d1d5db';
+                    e.target.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
+                  }}
                   rows="3"
                   placeholder="Any special requirements or notes..."
                 />
@@ -523,7 +721,10 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
             <button
               onClick={() => setCurrentStep(currentStep - 1)}
               disabled={currentStep === 1}
-              className="flex items-center px-6 py-3 text-gray-600 hover:text-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center px-6 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{ color: '#6c757d' }}
+              onMouseOver={(e) => !e.target.disabled && (e.target.style.color = '#162C49')}
+              onMouseOut={(e) => !e.target.disabled && (e.target.style.color = '#6c757d')}
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Previous
@@ -532,7 +733,10 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
               <button
                 onClick={() => setCurrentStep(currentStep + 1)}
                 disabled={!isStepValid(currentStep)}
-                className="flex items-center px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="flex items-center px-6 py-3 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                style={{ backgroundColor: '#162C49' }}
+                onMouseOver={(e) => !e.target.disabled && (e.target.style.backgroundColor = '#0f1f2e')}
+                onMouseOut={(e) => !e.target.disabled && (e.target.style.backgroundColor = '#162C49')}
               >
                 Next
                 <ArrowRight className="w-4 h-4 ml-2" />
@@ -541,7 +745,10 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
               <button
                 onClick={handleSubmit}
                 disabled={!isStepValid(currentStep)}
-                className="flex items-center px-6 py-3 bg-rose-600 text-white rounded-lg hover:bg-rose-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="flex items-center px-6 py-3 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                style={{ backgroundColor: '#C1121F' }}
+                onMouseOver={(e) => !e.target.disabled && (e.target.style.backgroundColor = '#a50f1a')}
+                onMouseOut={(e) => !e.target.disabled && (e.target.style.backgroundColor = '#C1121F')}
               >
                 Submit Appointment
                 <CheckCircle className="w-4 h-4 ml-2" />
@@ -676,35 +883,35 @@ const InventoryAccessSystem = ({ onLogout, currentUser, userRole }) => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="bg-white shadow-sm border-b sticky top-0 z-40">
+      <div className="bg-white shadow-sm border-b sticky top-0 z-40" style={{ backgroundColor: '#162C49' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-3">
-              <Package className="w-8 h-8 text-red-600" />
+              <Package className="w-8 h-8 text-white" />
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">Inventory Access System</h1>
-                <p className="text-sm text-gray-500">Digital Transformation Center</p>
+                <h1 className="text-2xl font-bold text-white">Inventory Access System</h1>
+                <p className="text-sm text-gray-300">Digital Transformation Center</p>
               </div>
             </div>
             <div className="flex items-center space-x-4">
               <button
                 onClick={() => setScanMode(true)}
-                className="flex items-center space-x-2 bg-gradient-to-r from-red-600 to-rose-600 text-white px-4 py-2 rounded-lg hover:from-red-700 hover:to-rose-700 transition-all transform hover:scale-105"
+                className="flex items-center space-x-2 bg-white text-gray-900 px-4 py-2 rounded-lg hover:bg-gray-100 transition-all transform hover:scale-105"
               >
                 <Scan className="w-5 h-5" />
                 <span>Scan QR</span>
               </button>
-              <div className="flex items-center space-x-3 px-4 py-2 bg-gray-100 rounded-lg">
+              <div className="flex items-center space-x-3 px-4 py-2 bg-white bg-opacity-20 rounded-lg">
                 <div className="flex items-center space-x-2">
-                  {userRole === 'admin' ? <Shield className="w-5 h-5 text-red-600" /> : <User className="w-5 h-5 text-gray-600" />}
+                  {userRole === 'admin' ? <Shield className="w-5 h-5 text-white" /> : <User className="w-5 h-5 text-white" />}
                   <div className="text-sm">
-                    <p className="font-medium text-gray-900">{currentUser?.name}</p>
-                    <p className="text-gray-500 capitalize">{userRole}</p>
+                    <p className="font-medium text-white">{currentUser?.name}</p>
+                    <p className="text-gray-300 capitalize">{userRole}</p>
                   </div>
                 </div>
                 <button
                   onClick={onLogout}
-                  className="text-gray-500 hover:text-red-600 transition-colors"
+                  className="text-white hover:text-gray-300 transition-colors"
                   title="Logout"
                 >
                   <LogOut className="w-5 h-5" />
@@ -858,6 +1065,7 @@ const InventoryAccessSystem = ({ onLogout, currentUser, userRole }) => {
                     <button
                       onClick={() => setCurrentView('items')}
                       className="flex flex-col items-center p-4 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
+
                     >
                       <Search className="w-8 h-8 text-red-600 mb-2" />
                       <span className="text-sm font-medium text-red-600">Browse Items</span>
@@ -1469,17 +1677,17 @@ const App = () => {
               <h2 className="text-3xl font-light mb-6">Digital Transformation Center</h2>
               <p className="text-xl opacity-90 mb-8">Streamline your inventory operations with our comprehensive tracking and borrowing system.</p>
               <div className="space-y-4">
-                <div className="flex items-center">
-                  <CheckCircle className="w-6 h-6 mr-3" />
-                  <span>Real-time inventory tracking</span>
+                <div className="flex items-start">
+                  <MapPin className="w-6 h-6 mr-3 mt-1 flex-shrink-0" />
+                  <span>2F STEER Hub Bldg., Batangas State University, TNEU - Alangilan Campus, Golden Country Homes, Alangilan, Batangas City</span>
                 </div>
                 <div className="flex items-center">
-                  <CheckCircle className="w-6 h-6 mr-3" />
-                  <span>QR code scanning</span>
+                  <Mail className="w-6 h-6 mr-3 flex-shrink-0" />
+                  <span>dtc@g.batstate-u.edu.ph</span>
                 </div>
                 <div className="flex items-center">
-                  <CheckCircle className="w-6 h-6 mr-3" />
-                  <span>Automated notifications</span>
+                  <Phone className="w-6 h-6 mr-3 flex-shrink-0" />
+                  <span>(043) 425-0139</span>
                 </div>
               </div>
             </div>
@@ -1544,39 +1752,6 @@ const App = () => {
 
   return (
     <div>
-      {/* Navigation to switch between systems for authenticated users */}
-      <div className="bg-gray-800 text-white py-2">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-          <div className="flex items-center space-x-4">
-            <span className="text-lg font-semibold">Current View:</span>
-            <button
-              onClick={() => setCurrentSystem('user')}
-              className={`px-4 py-1 rounded-full ${currentSystem === 'user' ? 'bg-red-600' : 'bg-gray-700 hover:bg-gray-600'}`}
-            >
-              User Appointment System
-            </button>
-            {userRole === 'admin' && (
-              <button
-                onClick={() => setCurrentSystem('admin')}
-                className={`px-4 py-1 rounded-full ${currentSystem === 'admin' ? 'bg-red-600' : 'bg-gray-700 hover:bg-gray-600'}`}
-              >
-                Admin Inventory System
-              </button>
-            )}
-          </div>
-          <div className="flex items-center space-x-3">
-            <User className="w-5 h-5" />
-            <span>{currentUser?.name} ({userRole})</span>
-            <button
-              onClick={handleLogout}
-              className="ml-4 px-3 py-1 bg-red-600 rounded-md hover:bg-red-700 transition-colors"
-            >
-              Logout
-            </button>
-          </div>
-        </div>
-      </div>
-
       {currentSystem === 'user' && (
         <InventoryAppointmentSystem onLogout={handleLogout} currentUser={currentUser} userRole={userRole} />
       )}
@@ -1603,3 +1778,4 @@ const App = () => {
 };
 
 export default App;
+
