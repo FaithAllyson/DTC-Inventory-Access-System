@@ -11,15 +11,28 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
     { id: 2, requesterName: 'Jane Smith', email: 'jane.smith@company.com', phone: '+63 917 654 3210', department: 'Marketing', date: '2024-07-09', time: '14:00', purpose: 'Equipment Return', items: ['Camera Canon EOS', 'Tripod Stand'], status: 'pending', createdAt: '2024-07-02T14:15:00' }
   ]);
   const [currentStep, setCurrentStep] = useState(0); // Start at 0 for dashboard
+  const [currentView, setCurrentView] = useState('dashboard'); // dashboard, confirmed-items, pending-items, available-items
   const [formData, setFormData] = useState({
     requesterName: '', email: '', phone: '', department: '', purpose: 'retrieval', items: [], date: '', time: '', notes: ''
   });
   const [availableItems] = useState([
     { id: 1, name: 'MacBook Pro 13"', category: 'Electronics', status: 'available' }, { id: 2, name: 'MacBook Pro 15"', category: 'Electronics', status: 'available' }, { id: 3, name: 'iPad Pro', category: 'Electronics', status: 'available' }, { id: 4, name: 'Wireless Mouse', category: 'Electronics', status: 'available' }, { id: 5, name: 'Mechanical Keyboard', category: 'Electronics', status: 'available' }, { id: 6, name: 'Monitor 27"', category: 'Electronics', status: 'available' }, { id: 7, name: 'Projector', category: 'Equipment', status: 'available' }, { id: 8, name: 'Camera Canon EOS', category: 'Equipment', status: 'available' }, { id: 9, name: 'Tripod Stand', category: 'Equipment', status: 'available' }, { id: 10, name: 'Office Chair', category: 'Furniture', status: 'available' }
   ]);
+  
+  // Admin items data for user to view
+  const [adminItems] = useState([
+    { id: 1, description: 'MacBook Pro 13"', serialNo: 'MBP001', qrCode: 'QR001', status: 'available', category: 'Electronics', location: 'Storage A1' },
+    { id: 2, description: 'Wireless Mouse', serialNo: 'WM002', qrCode: 'QR002', status: 'borrowed', category: 'Electronics', location: 'Storage A2' },
+    { id: 3, description: 'Projector', serialNo: 'PJ003', qrCode: 'QR003', status: 'available', category: 'Equipment', location: 'Storage B1' },
+    { id: 4, description: 'Camera Canon EOS', serialNo: 'CAM004', qrCode: 'QR004', status: 'available', category: 'Electronics', location: 'Storage A3' },
+    { id: 5, description: 'Conference Table', serialNo: 'CT005', qrCode: 'QR005', status: 'available', category: 'Furniture', location: 'Storage C1' },
+    { id: 6, description: 'Printer HP LaserJet', serialNo: 'HP006', qrCode: 'QR006', status: 'maintenance', category: 'Electronics', location: 'Storage A4' },
+  ]);
   const [selectedItems, setSelectedItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [customItemRequest, setCustomItemRequest] = useState('');
+  const [showCustomItemForm, setShowCustomItemForm] = useState(false);
   const timeSlots = [
     '08:00', '08:30', '09:00', '09:30', '10:00', '10:30',
     '11:00', '11:30', '13:00', '13:30', '14:00', '14:30',
@@ -86,10 +99,10 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
   };
 
   const renderStepIndicator = () => (
-    <div className="flex items-center justify-center mb-8">
+    <div className="flex items-center justify-center mb-6 sm:mb-8 px-2">
       {[1, 2, 3, 4].map((step) => (
         <React.Fragment key={step}>
-          <div className={`flex items-center justify-center w-10 h-10 rounded-full border-2 ${
+          <div className={`flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 ${
             currentStep >= step
               ? 'text-white'
               : 'border-gray-300 text-gray-400'
@@ -97,10 +110,10 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
             backgroundColor: currentStep >= step ? '#C1121F' : 'transparent',
             borderColor: currentStep >= step ? '#C1121F' : '#d1d5db'
           }}>
-            {currentStep > step ? <CheckCircle className="w-5 h-5" /> : step}
+            {currentStep > step ? <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5" /> : step}
           </div>
           {step < 4 && (
-            <div className={`w-12 h-0.5 ${
+            <div className={`w-8 sm:w-12 h-0.5 ${
               currentStep > step ? '' : 'bg-gray-300'
             }`} style={{
               backgroundColor: currentStep > step ? '#C1121F' : '#d1d5db'
@@ -111,7 +124,211 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
     </div>
   );
 
-  if (currentStep === 0) {
+  if (currentStep === 0 && currentView === 'dashboard') {
+    return (
+      <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)' }}>
+        <div className="bg-white shadow-sm" style={{ backgroundColor: '#162C49' }}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between h-16">
+              <div className="flex items-center space-x-2 sm:space-x-4">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-lg flex items-center justify-center">
+                  <Package className="w-4 h-4 sm:w-6 sm:h-6" style={{ color: '#162C49' }} />
+                </div>
+                <div className="hidden sm:block">
+                  <h1 className="text-lg sm:text-xl font-bold text-white">Inventory Access System</h1>
+                  <p className="text-xs sm:text-sm text-gray-300">Digital Transformation Center</p>
+                </div>
+                <div className="sm:hidden">
+                  <h1 className="text-sm font-bold text-white">IAS</h1>
+                  <p className="text-xs text-gray-300">DTC</p>
+                </div>
+              </div>
+              <div className="flex items-center space-x-2 sm:space-x-4">
+                {currentUser && (
+                  <div className="hidden sm:flex items-center space-x-2">
+                    <User className="w-5 h-5 text-white" />
+                    <span className="text-sm font-medium text-white">{currentUser.name} ({userRole})</span>
+                  </div>
+                )}
+                <button
+                  onClick={() => setCurrentStep(1)}
+                  className="bg-white text-gray-900 px-3 sm:px-6 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium text-xs sm:text-sm"
+                >
+                  <span className="hidden sm:inline">Book Appointment</span>
+                  <span className="sm:hidden">Book</span>
+                </button>
+                <button
+                  onClick={onLogout}
+                  className="bg-gray-200 text-gray-700 px-3 sm:px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors font-medium text-xs sm:text-sm"
+                >
+                  <span className="hidden sm:inline">Logout</span>
+                  <span className="sm:hidden">Out</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4" style={{ color: '#162C49' }}>
+              Schedule Your Inventory Access
+            </h2>
+            <p className="text-lg sm:text-xl max-w-3xl mx-auto px-4" style={{ color: '#6c757d' }}>
+              Book appointments to retrieve, return, or inspect equipment.
+              Streamline your inventory management with our easy scheduling system.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8 sm:mb-12">
+            <button 
+              onClick={() => setCurrentView('confirmed-items')}
+              className="bg-white rounded-xl p-4 sm:p-6 text-center transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-red-200 cursor-pointer" 
+              style={{ 
+                boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)'
+              }}
+              onMouseOver={(e) => {
+                e.target.style.boxShadow = '0 8px 25px rgba(193, 18, 31, 0.2)';
+                e.target.style.transform = 'translateY(-4px) scale(1.02)';
+              }}
+              onMouseOut={(e) => {
+                e.target.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1)';
+                e.target.style.transform = 'translateY(0) scale(1)';
+              }}
+            >
+              <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4" style={{ 
+                backgroundColor: '#C1121F',
+                boxShadow: '0 4px 15px rgba(193, 18, 31, 0.3)'
+              }}>
+                <CheckCircle className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: '#162C49' }}>
+                {appointments.filter(a => a.status === 'confirmed').length}
+              </h3>
+              <p className="text-xs sm:text-sm" style={{ color: '#6c757d' }}>Confirmed Today</p>
+            </button>
+            <button 
+              onClick={() => setCurrentView('pending-items')}
+              className="bg-white rounded-xl p-4 sm:p-6 text-center transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-200 cursor-pointer" 
+              style={{ 
+                boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)'
+              }}
+              onMouseOver={(e) => {
+                e.target.style.boxShadow = '0 8px 25px rgba(22, 44, 73, 0.2)';
+                e.target.style.transform = 'translateY(-4px) scale(1.02)';
+              }}
+              onMouseOut={(e) => {
+                e.target.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1)';
+                e.target.style.transform = 'translateY(0) scale(1)';
+              }}
+            >
+              <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4" style={{ 
+                backgroundColor: '#162C49',
+                boxShadow: '0 4px 15px rgba(22, 44, 73, 0.3)'
+              }}>
+                <Clock className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: '#162C49' }}>
+                {appointments.filter(a => a.status === 'pending').length}
+              </h3>
+              <p className="text-xs sm:text-sm" style={{ color: '#6c757d' }}>Pending Approval</p>
+            </button>
+            <button 
+              onClick={() => setCurrentView('available-items')}
+              className="bg-white rounded-xl p-4 sm:p-6 text-center transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-red-200 cursor-pointer" 
+              style={{ 
+                boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)'
+              }}
+              onMouseOver={(e) => {
+                e.target.style.boxShadow = '0 8px 25px rgba(193, 18, 31, 0.2)';
+                e.target.style.transform = 'translateY(-4px) scale(1.02)';
+              }}
+              onMouseOut={(e) => {
+                e.target.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1)';
+                e.target.style.transform = 'translateY(0) scale(1)';
+              }}
+            >
+              <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4" style={{ 
+                backgroundColor: '#C1121F',
+                boxShadow: '0 4px 15px rgba(193, 18, 31, 0.3)'
+              }}>
+                <Package className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: '#162C49' }}>
+                {availableItems.filter(i => i.status === 'available').length}
+              </h3>
+              <p className="text-xs sm:text-sm" style={{ color: '#6c757d' }}>Items Available</p>
+            </button>
+            <button 
+              onClick={() => setCurrentStep(1)}
+              className="bg-white rounded-xl p-4 sm:p-6 text-center transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-200 cursor-pointer" 
+              style={{ 
+                boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)'
+              }}
+              onMouseOver={(e) => {
+                e.target.style.boxShadow = '0 8px 25px rgba(22, 44, 73, 0.2)';
+                e.target.style.transform = 'translateY(-4px) scale(1.02)';
+              }}
+              onMouseOut={(e) => {
+                e.target.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1)';
+                e.target.style.transform = 'translateY(0) scale(1)';
+              }}
+            >
+              <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4" style={{ 
+                backgroundColor: '#162C49',
+                boxShadow: '0 4px 15px rgba(22, 44, 73, 0.3)'
+              }}>
+                <Calendar className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: '#162C49' }}>24/7</h3>
+              <p className="text-xs sm:text-sm" style={{ color: '#6c757d' }}>Online Booking</p>
+            </button>
+          </div>
+          <div className="rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300" style={{ 
+            background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)',
+            boxShadow: '0 4px 15px rgba(22, 44, 73, 0.1)',
+            border: '1px solid rgba(22, 44, 73, 0.1)'
+          }}>
+            <div className="px-4 sm:px-6 py-4 border-b" style={{ borderColor: 'rgba(22, 44, 73, 0.1)' }}>
+              <h3 className="text-base sm:text-lg font-semibold" style={{ color: '#162C49' }}>Recent Appointments</h3>
+            </div>
+            <div className="divide-y" style={{ borderColor: 'rgba(22, 44, 73, 0.1)' }}>
+              {appointments.slice(0, 5).map((appointment) => (
+                <div key={appointment.id} className="px-4 sm:px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between hover:bg-gray-50 transition-colors duration-200 space-y-2 sm:space-y-0">
+                  <div className="flex items-center space-x-3 sm:space-x-4">
+                    <div className={`w-3 h-3 sm:w-4 sm:h-4 rounded-full ${
+                      appointment.status === 'confirmed' ? 'bg-green-500' :
+                        appointment.status === 'pending' ? 'bg-yellow-500' : 'bg-yellow-500'
+                    }`} style={{
+                      boxShadow: appointment.status === 'confirmed' ? '0 0 10px rgba(34, 197, 94, 0.3)' : '0 0 10px rgba(234, 179, 8, 0.3)'
+                    }} />
+                    <div>
+                      <p className="font-medium text-sm sm:text-base" style={{ color: '#162C49' }}>{appointment.requesterName}</p>
+                      <p className="text-xs sm:text-sm" style={{ color: '#6c757d' }}>{appointment.department}</p>
+                    </div>
+                  </div>
+                  <div className="text-left sm:text-right">
+                    <p className="text-xs sm:text-sm font-medium" style={{ color: '#162C49' }}>
+                      {appointment.date} at {appointment.time}
+                    </p>
+                    <p className="text-xs sm:text-sm" style={{ color: '#6c757d' }}>{appointment.purpose}</p>
+                  </div>
+                  <div className={`px-3 sm:px-4 py-1 sm:py-2 rounded-full text-xs font-medium text-white transition-all duration-200 self-start sm:self-auto`} style={{
+                    backgroundColor: appointment.status === 'confirmed' ? '#C1121F' : '#162C49',
+                    boxShadow: appointment.status === 'confirmed' ? '0 2px 8px rgba(193, 18, 31, 0.3)' : '0 2px 8px rgba(22, 44, 73, 0.3)'
+                  }}>
+                    {appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Confirmed Items View
+  if (currentView === 'confirmed-items') {
+    const confirmedAppointments = appointments.filter(a => a.status === 'confirmed');
     return (
       <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)' }}>
         <div className="bg-white shadow-sm" style={{ backgroundColor: '#162C49' }}>
@@ -127,17 +344,11 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
                 </div>
               </div>
               <div className="flex items-center space-x-4">
-                {currentUser && (
-                  <div className="flex items-center space-x-2">
-                    <User className="w-5 h-5 text-white" />
-                    <span className="text-sm font-medium text-white">{currentUser.name} ({userRole})</span>
-                  </div>
-                )}
                 <button
-                  onClick={() => setCurrentStep(1)}
+                  onClick={() => setCurrentView('dashboard')}
                   className="bg-white text-gray-900 px-6 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium"
                 >
-                  Book Appointment
+                  Back to Dashboard
                 </button>
                 <button
                   onClick={onLogout}
@@ -149,110 +360,317 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
             </div>
           </div>
         </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4" style={{ color: '#162C49' }}>
-              Schedule Your Inventory Access
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4" style={{ color: '#162C49' }}>
+              Confirmed Appointments - Borrowed Items
             </h2>
-            <p className="text-xl max-w-3xl mx-auto" style={{ color: '#6c757d' }}>
-              Book appointments to retrieve, return, or inspect equipment.
-              Streamline your inventory management with our easy scheduling system.
+            <p className="text-lg sm:text-xl max-w-3xl mx-auto px-4" style={{ color: '#6c757d' }}>
+              View items that have been borrowed through confirmed appointments.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-            <div className="bg-white rounded-xl p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105" style={{ 
-              boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)'
-            }}>
-              <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ 
-                backgroundColor: '#C1121F',
-                boxShadow: '0 4px 15px rgba(193, 18, 31, 0.3)'
-              }}>
-                <CheckCircle className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-3xl font-bold mb-2" style={{ color: '#162C49' }}>
-                {appointments.filter(a => a.status === 'confirmed').length}
-              </h3>
-              <p className="text-sm" style={{ color: '#6c757d' }}>Confirmed Today</p>
-            </div>
-            <div className="bg-white rounded-xl p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105" style={{ 
-              boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)'
-            }}>
-              <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ 
-                backgroundColor: '#162C49',
-                boxShadow: '0 4px 15px rgba(22, 44, 73, 0.3)'
-              }}>
-                <Clock className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-3xl font-bold mb-2" style={{ color: '#162C49' }}>
-                {appointments.filter(a => a.status === 'pending').length}
-              </h3>
-              <p className="text-sm" style={{ color: '#6c757d' }}>Pending Approval</p>
-            </div>
-            <div className="bg-white rounded-xl p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105" style={{ 
-              boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)'
-            }}>
-              <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ 
-                backgroundColor: '#C1121F',
-                boxShadow: '0 4px 15px rgba(193, 18, 31, 0.3)'
-              }}>
-                <Package className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-3xl font-bold mb-2" style={{ color: '#162C49' }}>
-                {availableItems.filter(i => i.status === 'available').length}
-              </h3>
-              <p className="text-sm" style={{ color: '#6c757d' }}>Items Available</p>
-            </div>
-            <div className="bg-white rounded-xl p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105" style={{ 
-              boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)'
-            }}>
-              <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ 
-                backgroundColor: '#162C49',
-                boxShadow: '0 4px 15px rgba(22, 44, 73, 0.3)'
-              }}>
-                <Calendar className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-3xl font-bold mb-2" style={{ color: '#162C49' }}>24/7</h3>
-              <p className="text-sm" style={{ color: '#6c757d' }}>Online Booking</p>
-            </div>
-          </div>
-          <div className="rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300" style={{ 
-            background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)',
-            boxShadow: '0 4px 15px rgba(22, 44, 73, 0.1)',
-            border: '1px solid rgba(22, 44, 73, 0.1)'
-          }}>
-            <div className="px-6 py-4 border-b" style={{ borderColor: 'rgba(22, 44, 73, 0.1)' }}>
-              <h3 className="text-lg font-semibold" style={{ color: '#162C49' }}>Recent Appointments</h3>
-            </div>
-            <div className="divide-y" style={{ borderColor: 'rgba(22, 44, 73, 0.1)' }}>
-              {appointments.slice(0, 5).map((appointment) => (
-                <div key={appointment.id} className="px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors duration-200">
-                  <div className="flex items-center space-x-4">
-                    <div className={`w-4 h-4 rounded-full ${
-                      appointment.status === 'confirmed' ? 'bg-green-500' :
-                        appointment.status === 'pending' ? 'bg-yellow-500' : 'bg-yellow-500'
-                    }`} style={{
-                      boxShadow: appointment.status === 'confirmed' ? '0 0 10px rgba(34, 197, 94, 0.3)' : '0 0 10px rgba(234, 179, 8, 0.3)'
-                    }} />
+          {confirmedAppointments.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              {confirmedAppointments.map((appointment) => (
+                <div key={appointment.id} className="bg-white rounded-xl shadow-sm p-4 sm:p-6 hover:shadow-lg transition-all duration-300" style={{ 
+                  boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
+                  border: '1px solid rgba(22, 44, 73, 0.1)'
+                }}>
+                  <div className="flex items-center mb-3 sm:mb-4">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mr-3 sm:mr-4" style={{ backgroundColor: '#C1121F' }}>
+                      <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                    </div>
                     <div>
-                      <p className="font-medium" style={{ color: '#162C49' }}>{appointment.requesterName}</p>
-                      <p className="text-sm" style={{ color: '#6c757d' }}>{appointment.department}</p>
+                      <h3 className="font-semibold text-sm sm:text-base" style={{ color: '#162C49' }}>{appointment.requesterName}</h3>
+                      <p className="text-xs sm:text-sm" style={{ color: '#6c757d' }}>{appointment.department}</p>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <p className="text-sm font-medium" style={{ color: '#162C49' }}>
-                      {appointment.date} at {appointment.time}
-                    </p>
-                    <p className="text-sm" style={{ color: '#6c757d' }}>{appointment.purpose}</p>
-                  </div>
-                  <div className={`px-4 py-2 rounded-full text-xs font-medium text-white transition-all duration-200`} style={{
-                    backgroundColor: appointment.status === 'confirmed' ? '#C1121F' : '#162C49',
-                    boxShadow: appointment.status === 'confirmed' ? '0 2px 8px rgba(193, 18, 31, 0.3)' : '0 2px 8px rgba(22, 44, 73, 0.3)'
-                  }}>
-                    {appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}
+                  <div className="space-y-2">
+                    <p className="text-xs sm:text-sm"><span className="font-medium" style={{ color: '#162C49' }}>Date:</span> {appointment.date}</p>
+                    <p className="text-xs sm:text-sm"><span className="font-medium" style={{ color: '#162C49' }}>Time:</span> {appointment.time}</p>
+                    <p className="text-xs sm:text-sm"><span className="font-medium" style={{ color: '#162C49' }}>Purpose:</span> {appointment.purpose}</p>
+                    {appointment.items.length > 0 && (
+                      <div>
+                        <p className="text-xs sm:text-sm font-medium mb-2" style={{ color: '#162C49' }}>Borrowed Items:</p>
+                        <div className="flex flex-wrap gap-1 sm:gap-2">
+                          {appointment.items.map((item, index) => (
+                            <span key={index} className="px-2 py-1 text-xs rounded-full text-white" style={{ backgroundColor: '#C1121F' }}>
+                              {item}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
             </div>
+          ) : (
+            <div className="text-center py-12">
+              <Package className="w-16 h-16 mx-auto mb-4" style={{ color: '#6c757d' }} />
+              <h3 className="text-xl font-semibold mb-2" style={{ color: '#162C49' }}>No Confirmed Appointments</h3>
+              <p style={{ color: '#6c757d' }}>You don't have any confirmed appointments yet.</p>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // Pending Items View
+  if (currentView === 'pending-items') {
+    const pendingAppointments = appointments.filter(a => a.status === 'pending');
+    return (
+      <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)' }}>
+        <div className="bg-white shadow-sm" style={{ backgroundColor: '#162C49' }}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between h-16">
+              <div className="flex items-center space-x-4">
+                <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+                  <Package className="w-6 h-6" style={{ color: '#162C49' }} />
+                </div>
+                <div>
+                  <h1 className="text-xl font-bold text-white">Inventory Access System</h1>
+                  <p className="text-sm text-gray-300">Digital Transformation Center</p>
+                </div>
+              </div>
+              <div className="flex items-center space-x-4">
+                <button
+                  onClick={() => setCurrentView('dashboard')}
+                  className="bg-white text-gray-900 px-6 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium"
+                >
+                  Back to Dashboard
+                </button>
+                <button
+                  onClick={onLogout}
+                  className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors font-medium"
+                >
+                  Logout
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4" style={{ color: '#162C49' }}>
+              Pending Appointments - Items Not Yet Returned
+            </h2>
+            <p className="text-lg sm:text-xl max-w-3xl mx-auto px-4" style={{ color: '#6c757d' }}>
+              View items that are borrowed and not yet returned based on pending appointments.
+            </p>
+          </div>
+          {pendingAppointments.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              {pendingAppointments.map((appointment) => (
+                <div key={appointment.id} className="bg-white rounded-xl shadow-sm p-4 sm:p-6 hover:shadow-lg transition-all duration-300" style={{ 
+                  boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
+                  border: '1px solid rgba(22, 44, 73, 0.1)'
+                }}>
+                  <div className="flex items-center mb-3 sm:mb-4">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mr-3 sm:mr-4" style={{ backgroundColor: '#162C49' }}>
+                      <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-sm sm:text-base" style={{ color: '#162C49' }}>{appointment.requesterName}</h3>
+                      <p className="text-xs sm:text-sm" style={{ color: '#6c757d' }}>{appointment.department}</p>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <p className="text-sm"><span className="font-medium" style={{ color: '#162C49' }}>Date:</span> {appointment.date}</p>
+                    <p className="text-sm"><span className="font-medium" style={{ color: '#162C49' }}>Time:</span> {appointment.time}</p>
+                    <p className="text-sm"><span className="font-medium" style={{ color: '#162C49' }}>Purpose:</span> {appointment.purpose}</p>
+                    {appointment.items.length > 0 && (
+                      <div>
+                        <p className="text-sm font-medium mb-2" style={{ color: '#162C49' }}>Items to Borrow:</p>
+                        <div className="flex flex-wrap gap-2">
+                          {appointment.items.map((item, index) => (
+                            <span key={index} className="px-2 py-1 text-xs rounded-full text-white" style={{ backgroundColor: '#162C49' }}>
+                              {item}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <Clock className="w-16 h-16 mx-auto mb-4" style={{ color: '#6c757d' }} />
+              <h3 className="text-xl font-semibold mb-2" style={{ color: '#162C49' }}>No Pending Appointments</h3>
+              <p style={{ color: '#6c757d' }}>You don't have any pending appointments.</p>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // Available Items View
+  if (currentView === 'available-items') {
+    return (
+      <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)' }}>
+        <div className="bg-white shadow-sm" style={{ backgroundColor: '#162C49' }}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between h-16">
+              <div className="flex items-center space-x-4">
+                <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+                  <Package className="w-6 h-6" style={{ color: '#162C49' }} />
+                </div>
+                <div>
+                  <h1 className="text-xl font-bold text-white">Inventory Access System</h1>
+                  <p className="text-sm text-gray-300">Digital Transformation Center</p>
+                </div>
+              </div>
+              <div className="flex items-center space-x-4">
+                <button
+                  onClick={() => setCurrentView('dashboard')}
+                  className="bg-white text-gray-900 px-6 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium"
+                >
+                  Back to Dashboard
+                </button>
+                <button
+                  onClick={onLogout}
+                  className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors font-medium"
+                >
+                  Logout
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4" style={{ color: '#162C49' }}>
+              Available Equipment & Items
+            </h2>
+            <p className="text-lg sm:text-xl max-w-3xl mx-auto px-4" style={{ color: '#6c757d' }}>
+              Browse all available equipment. Only available items are clickable for booking.
+            </p>
+          </div>
+          
+          {/* Custom Item Request Section */}
+          <div className="mb-8">
+            <div className="bg-white rounded-xl shadow-sm p-6" style={{ 
+              boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
+              border: '1px solid rgba(22, 44, 73, 0.1)'
+            }}>
+              <h3 className="text-lg font-semibold mb-4" style={{ color: '#162C49' }}>Request Custom Item</h3>
+              {!showCustomItemForm ? (
+                <button
+                  onClick={() => setShowCustomItemForm(true)}
+                  className="px-6 py-3 rounded-lg text-white transition-all duration-200"
+                  style={{ backgroundColor: '#C1121F' }}
+                  onMouseOver={(e) => e.target.style.backgroundColor = '#a50f1a'}
+                  onMouseOut={(e) => e.target.style.backgroundColor = '#C1121F'}
+                >
+                  Request Item Not in List
+                </button>
+              ) : (
+                <div className="space-y-4">
+                  <textarea
+                    value={customItemRequest}
+                    onChange={(e) => setCustomItemRequest(e.target.value)}
+                    className="w-full px-4 py-3 border rounded-lg transition-all duration-200"
+                    style={{ 
+                      borderColor: '#d1d5db',
+                      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#C1121F';
+                      e.target.style.boxShadow = '0 0 0 3px rgba(193, 18, 31, 0.1)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = '#d1d5db';
+                      e.target.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
+                    }}
+                    rows="3"
+                    placeholder="Describe the item you want to borrow..."
+                  />
+                  <div className="flex space-x-3">
+                    <button
+                      onClick={() => {
+                        if (customItemRequest.trim()) {
+                          alert('Custom item request submitted! We will review your request.');
+                          setCustomItemRequest('');
+                          setShowCustomItemForm(false);
+                        }
+                      }}
+                      className="px-6 py-2 rounded-lg text-white transition-all duration-200"
+                      style={{ backgroundColor: '#C1121F' }}
+                      onMouseOver={(e) => e.target.style.backgroundColor = '#a50f1a'}
+                      onMouseOut={(e) => e.target.style.backgroundColor = '#C1121F'}
+                    >
+                      Submit Request
+                    </button>
+                    <button
+                      onClick={() => {
+                        setCustomItemRequest('');
+                        setShowCustomItemForm(false);
+                      }}
+                      className="px-6 py-2 rounded-lg transition-all duration-200"
+                      style={{ backgroundColor: '#6c757d', color: 'white' }}
+                      onMouseOver={(e) => e.target.style.backgroundColor = '#5a6268'}
+                      onMouseOut={(e) => e.target.style.backgroundColor = '#6c757d'}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Available Items Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            {adminItems.map((item) => (
+              <div key={item.id} className={`rounded-xl shadow-sm p-4 sm:p-6 transition-all duration-300 ${
+                item.status === 'available' ? 'bg-white hover:shadow-lg cursor-pointer' : 'bg-gray-100'
+              }`} style={{ 
+                boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
+                border: '1px solid rgba(22, 44, 73, 0.1)'
+              }}
+              onClick={() => {
+                if (item.status === 'available') {
+                  setCurrentStep(1);
+                  setFormData({ ...formData, items: [item.description] });
+                }
+              }}
+              >
+                <div className="flex items-center mb-3 sm:mb-4">
+                  <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mr-3 sm:mr-4 ${
+                    item.status === 'available' ? 'bg-green-500' : 'bg-gray-400'
+                  }`}>
+                    <Package className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-sm sm:text-base" style={{ color: '#162C49' }}>{item.description}</h3>
+                    <p className="text-xs sm:text-sm" style={{ color: '#6c757d' }}>{item.category}</p>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-xs sm:text-sm"><span className="font-medium" style={{ color: '#162C49' }}>Serial:</span> {item.serialNo}</p>
+                  <p className="text-xs sm:text-sm"><span className="font-medium" style={{ color: '#162C49' }}>Location:</span> {item.location}</p>
+                  <div className="flex items-center justify-between">
+                    <span className={`px-2 sm:px-3 py-1 text-xs font-medium rounded-full ${
+                      item.status === 'available' 
+                        ? 'bg-green-100 text-green-800' 
+                        : item.status === 'borrowed'
+                        ? 'bg-yellow-100 text-yellow-800'
+                        : 'bg-red-100 text-red-800'
+                    }`}>
+                      {item.status === 'available' ? 'Available' : 
+                       item.status === 'borrowed' ? 'On Pending' : 'Maintenance'}
+                    </span>
+                    {item.status === 'available' && (
+                      <span className="text-xs" style={{ color: '#C1121F' }}>Click to Book</span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -263,21 +681,21 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)' }}>
         <div className="max-w-md w-full mx-4">
-          <div className="rounded-2xl p-8 text-center hover:shadow-2xl transition-all duration-300 transform hover:scale-105" style={{ 
+          <div className="rounded-2xl p-6 sm:p-8 text-center hover:shadow-2xl transition-all duration-300 transform hover:scale-105" style={{ 
             background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)',
             boxShadow: '0 10px 30px rgba(22, 44, 73, 0.15)',
             border: '1px solid rgba(22, 44, 73, 0.1)'
           }}>
-            <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6" style={{ 
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6" style={{ 
               background: 'linear-gradient(135deg, #C1121F 0%, #a50f1a 100%)',
               boxShadow: '0 8px 25px rgba(193, 18, 31, 0.3)'
             }}>
-              <CheckCircle className="w-10 h-10 text-white" />
+              <CheckCircle className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
             </div>
-            <h2 className="text-2xl font-bold mb-4" style={{ color: '#162C49' }}>
+            <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4" style={{ color: '#162C49' }}>
               Appointment Booked Successfully!
             </h2>
-            <p className="mb-8" style={{ color: '#6c757d' }}>
+            <p className="mb-6 sm:mb-8 text-sm sm:text-base" style={{ color: '#6c757d' }}>
               Your appointment request has been submitted. You will receive a confirmation email shortly.
             </p>
             <div className="space-y-3">
@@ -332,17 +750,17 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
           </div>
         </div>
       </div>
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
         {renderStepIndicator()}
-        <div className="rounded-xl p-8 hover:shadow-xl transition-all duration-300" style={{ 
+        <div className="rounded-xl p-4 sm:p-6 lg:p-8 hover:shadow-xl transition-all duration-300" style={{ 
           background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)',
           boxShadow: '0 4px 15px rgba(22, 44, 73, 0.1)',
           border: '1px solid rgba(22, 44, 73, 0.1)'
         }}>
           {currentStep === 1 && (
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Personal Information</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">Personal Information</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Full Name *
@@ -447,7 +865,7 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
           )}
           {currentStep === 2 && (
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Appointment Purpose</h2>
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">Appointment Purpose</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {purposes.map((purpose) => (
                   <div
@@ -476,7 +894,7 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
           )}
           {currentStep === 3 && (
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">
                 {formData.purpose === 'return' ? 'Items to Return' : 'Select Items'}
               </h2>
               {formData.purpose === 'return' ? (
@@ -630,8 +1048,8 @@ const InventoryAppointmentSystem = ({ onLogout, currentUser, userRole }) => {
           )}
           {currentStep === 4 && (
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Select Date & Time</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">Select Date & Time</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Preferred Date *
@@ -1669,44 +2087,43 @@ const App = () => {
             }}
           >
             <div className="absolute inset-0 bg-black opacity-20"></div>
-            <div className="relative z-10 flex flex-col justify-center px-12 text-white">
-              <div className="flex items-center mb-8">
-                <Package className="w-12 h-12 mr-4" />
-                <h1 className="text-4xl font-bold">Inventory Access System</h1>
+                      <div className="relative z-10 flex flex-col justify-center px-6 sm:px-12 text-white">
+            <div className="flex items-center mb-6 sm:mb-8">
+              <Package className="w-8 h-8 sm:w-12 sm:h-12 mr-3 sm:mr-4" />
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold">Inventory Access System</h1>
+            </div>
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-light mb-4 sm:mb-6">Digital Transformation Center</h2>
+            <p className="text-base sm:text-lg lg:text-xl opacity-90 mb-6 sm:mb-8">Streamline your inventory operations with our comprehensive tracking and borrowing system.</p>
+            <div className="space-y-3 sm:space-y-4">
+              <div className="flex items-start">
+                <MapPin className="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3 mt-1 flex-shrink-0" />
+                <span className="text-sm sm:text-base">2F STEER Hub Bldg., Batangas State University, TNEU - Alangilan Campus, Golden Country Homes, Alangilan, Batangas City</span>
               </div>
-              <h2 className="text-3xl font-light mb-6">Digital Transformation Center</h2>
-              <p className="text-xl opacity-90 mb-8">Streamline your inventory operations with our comprehensive tracking and borrowing system.</p>
-              <div className="space-y-4">
-                <div className="flex items-start">
-                  <MapPin className="w-6 h-6 mr-3 mt-1 flex-shrink-0" />
-                  <span>2F STEER Hub Bldg., Batangas State University, TNEU - Alangilan Campus, Golden Country Homes, Alangilan, Batangas City</span>
-                </div>
-                <div className="flex items-center">
-                  <Mail className="w-6 h-6 mr-3 flex-shrink-0" />
-                  <span>dtc@g.batstate-u.edu.ph</span>
-                </div>
-                <div className="flex items-center">
-                  <Phone className="w-6 h-6 mr-3 flex-shrink-0" />
-                  <span>(043) 425-0139</span>
-                </div>
+              <div className="flex items-center">
+                <Mail className="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3 flex-shrink-0" />
+                <span className="text-sm sm:text-base">dtc@g.batstate-u.edu.ph</span>
+              </div>
+              <div className="flex items-center">
+                <Phone className="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3 flex-shrink-0" />
+                <span className="text-sm sm:text-base">(043) 425-0139</span>
               </div>
             </div>
-            <div className="absolute top-20 right-20 w-64 h-64 rounded-full bg-white opacity-10"></div>
-            <div className="absolute bottom-20 right-10 w-32 h-32 rounded-full bg-white opacity-10"></div>
+          </div>
+
           </div>
           <div className="w-full lg:w-1/2 flex items-center justify-center px-8 bg-secondary-light min-h-screen">
             <div className="max-w-md w-full relative">
               {/* Red accent bar at the top */}
               <div className="h-2 w-24 rounded-full bg-primary absolute -top-6 left-1/2 transform -translate-x-1/2 shadow-lg"></div>
-              <div className="text-center mb-8">
+              <div className="text-center mb-6 sm:mb-8">
                 <div className="flex items-center justify-center mb-4 lg:hidden">
-                  <Package className="w-10 h-10 text-primary mr-3" />
-                  <h1 className="text-2xl font-bold text-secondary">InventoryPro</h1>
+                  <Package className="w-8 h-8 sm:w-10 sm:h-10 text-primary mr-2 sm:mr-3" />
+                  <h1 className="text-xl sm:text-2xl font-bold text-secondary">InventoryPro</h1>
                 </div>
-                <h2 className="text-3xl font-bold text-secondary mb-2">Welcome Back</h2>
-                <p className="text-secondary">Sign in to access your inventory system</p>
+                <h2 className="text-2xl sm:text-3xl font-bold text-secondary mb-2">Welcome Back</h2>
+                <p className="text-secondary text-sm sm:text-base">Sign in to access your inventory system</p>
               </div>
-              <div className="bg-white rounded-2xl shadow-xl p-8 border border-secondary/30">
+              <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 border border-secondary/30">
                 <div className="space-y-6">
                   <div>
                     <label className="block text-sm font-medium text-secondary mb-2">Email Address</label>
